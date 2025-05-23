@@ -1,8 +1,8 @@
-## Tecnicatura Superior en Ciencia de Datos e Inteligencia Artificial.
+## Tecnicaturatura Superior en Ciencia de Datos e Inteligencia Artificial.
 
 Politécnico Malvinas Argentinas.
 
-Aprendizaje Automático
+Desarrollo de Sistemas de IA
 
 Autor: Bolaña Silvia
 
