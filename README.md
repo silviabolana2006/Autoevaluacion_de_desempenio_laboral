@@ -9,6 +9,18 @@ Autor: Bolaña Silvia
 # Autoevaluacion_de_desempenio_laboral
 Sistema Experto de Autoevaluación de desempeño laboral
 
+## Pasis para ejecutar el Sistema Exoerto
+
+Instalación:
+Para instalar y ejecutar este sistema experto, sigue estos pasos:
+
+### **1. Clonar el repositorio**
+Primero, descarga el código en tu equipo:
+```bash
+git clone <URL_DEL_REPOSITORIO>
+
+EN PROCESO
+
 
 
 ## Estructura del Proyecto
@@ -23,4 +35,8 @@ Sistema Experto de Autoevaluación de desempeño laboral
 - `pyproject.toml` - Archivo de configuración para paquetes en Python.
 
 ## Licencia
-Este sistema experto es propiedad de Silvia Bolaña. No está permitido su uso
+Este sistema experto es propiedad de Silvia Bolaña. No está permitido su uso, modificación o distribución sin autorización expresa.
+
+
+
+Este README garantiza que cualquiera que descargue el proyecto tenga instrucciones claras sobre cómo instalarlo y ejecutarlo.
