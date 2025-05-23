@@ -1,7 +1,14 @@
+## Tecnicatura Superior en Ciencia de Datos e Inteligencia Artificial.
+
+Politécnico Malvinas Argentinas.
+
+Aprendizaje Automático
+
+Autor: Bolaña Silvia
+
 # Autoevaluacion_de_desempenio_laboral
 Sistema Experto de Autoevaluación de desempeño laboral
-## Licencia
-Este sistema experto es propiedad de Silvia Bolaña. No está permitido su uso
+
 
 
 ## Estructura del Proyecto
@@ -14,3 +21,6 @@ Este sistema experto es propiedad de Silvia Bolaña. No está permitido su uso
 - `app.py` - Archivo principal para ejecutar la aplicación.
 - `requirements.txt` - Lista de dependencias necesarias para el proyecto.
 - `pyproject.toml` - Archivo de configuración para paquetes en Python.
+
+## Licencia
+Este sistema experto es propiedad de Silvia Bolaña. No está permitido su uso
