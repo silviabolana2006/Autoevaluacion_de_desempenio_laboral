@@ -6,7 +6,7 @@ Desarrollo de Sistemas de IA
 
 Autor: Bolaña Silvia
 
-# Autoevaluacion_de_desempenio_laboral
+## Autoevaluacion_de_desempenio_laboral
 Sistema Experto de Autoevaluación de desempeño laboral
 
 ## Licencia
@@ -18,9 +18,6 @@ Para instalar y ejecutar este sistema experto, sigue estos pasos:
 ## **1. Clonar el repositorio**
 Primero, descarga el código en tu equipo:
 ```bashgit clone <URL_DEL_REPOSITORIO>                                        EN PROCESo
-
-
-
 
 
 ## Estructura del Proyecto
