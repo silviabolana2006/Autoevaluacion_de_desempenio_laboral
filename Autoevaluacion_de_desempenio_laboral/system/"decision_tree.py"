@@ -72,3 +72,7 @@ dot.node('F3', 'Mala colaboración (0%)', style='filled', fillcolor='lightgray')
 
 # Muestra el gráfico en Google Colab
 dot
+
+#para bajar el arbol en la computadora
+from google.colab import files
+files.download('arbol_decision.png')
