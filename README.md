@@ -7,7 +7,7 @@ Desarrollo de Sistemas de IA
 Autor: Bolaña Silvia
 
 ## Autoevaluacion_de_desempenio_laboral
-Sistema Experto de Autoevaluación de desempeño laboral
+Sistema Experto de Autoevaluación de desempeño laboral             Readmi en proceso
 
 ## Licencia
 Este sistema experto es propiedad de Silvia Bolaña. No está permitido su uso, modificación o distribución sin autorización expresa.
