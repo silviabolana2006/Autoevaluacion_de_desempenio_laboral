@@ -25,9 +25,13 @@ Para desarrollar el sistema experto de Autoevaluación del Desempeño Laboral, s
 ## Reglas del sistema
 
    1.Asistencia: Condiciones para asignar 100% o 0% según la presencia del empleado.    
+   
    2.Cumplimiento de objetivos: Evaluación basada en cumplimiento personal o grupal. 
+   
    3.Desempeño según el puesto: Uso de porcentajes según ítems de la descripción del cargo.
+   
    4.Gestión del tiempo y organización: Categorización en rangos de desempeño.
+   
    5.Trabajo en equipo y colaboración: Evaluación por diferentes criterios como comunicación y cooperación
 
 ## Criterios de evaluación
