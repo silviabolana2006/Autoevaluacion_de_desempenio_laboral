@@ -6,11 +6,11 @@ Desarrollo de Sistemas de IA
 
 Autor: Bolaña Silvia
 
-# Autoevaluacion_de_desempenio_laboral
+## Autoevaluacion_de_desempenio_laboral
 
 
 
-###  Objetivo
+##  Objetivo
 
 El sistema experto de “Autoevaluación de desempeño laboral", tiene como objetivo proporcionar una herramienta tecnológica para el area de RRHH, que permitirá a los trabajadores evaluar su rendimiento de manera objetiva, estructurada y automatizada. El diseño de este sistema experto garantizará la equidad en la evaluación, evitando sesgos y ofreciendo recomendaciones basadas en datos proporcionados por el propio empleado. La implementación de este sistema contribuirá a la transparencia en las relaciones laborales, optimizando el crecimiento profesional de los empleados y fortaleciendo la cultura organizacional dentro de las empresas, adaptando el sistema a la revolución tecnológica actual.
 
