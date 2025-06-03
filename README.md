@@ -44,9 +44,6 @@ El sistema experto organiza la información y toma decisiones utilizando un árb
 
 
 
-## Licencia
-Este sistema experto es propiedad de Silvia Bolaña. No está permitido su uso, modificación o distribución sin autorización expresa.
-
 ## Herramientas utilizadas
 Librerías pathlib, json, graphviz
 
