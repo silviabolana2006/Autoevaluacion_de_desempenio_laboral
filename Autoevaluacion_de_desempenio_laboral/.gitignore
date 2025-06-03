@@ -1,7 +1,7 @@
 
 
 # Archivos del sistema y configuraciones locales
-*.pyc
+.pyc
 __pycache__/
 .DS_Store
 .env
@@ -11,13 +11,13 @@ __pycache__/
 # Dependencias y entornos virtuales
 venv/
 node_modules/
-*.log
+.log
 
 # Archivos temporales y backups
-*.tmp
-*.bak
-*.swp
-*.swo
+.tmp
+.bak
+.swp
+.swo
 
 # Configuración específica del repositorio
 .gitignore
