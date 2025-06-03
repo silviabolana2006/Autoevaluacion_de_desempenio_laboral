@@ -9,7 +9,7 @@ dot.node('A', 'Empleado', style='filled', fillcolor='lightgreen')  # Verde claro
 dot.node('B', '¿Tuvo asistencia completa?')
 dot.node('C', '¿Cumplió los objetivos?')
 dot.node('D', '¿Cumple desempeño y responsabilidad?')
-dot.node('E', '¿Tiene buena gestión del tiempo?')
+dot.node('E', '¿Concordancia entre habilidades y perfil del puesto?')
 dot.node('F', '¿Colabora en equipo?')
 
 # Conecta los nodos con respuestas Sí/No
@@ -48,16 +48,16 @@ dot.node('D1', 'Cumple Desempeño (%)', style='filled', fillcolor='lightgray')  
 dot.edge('D', 'D2', label='No (0%)')
 dot.node('D2', 'No Cumple (0%)', style='filled', fillcolor='lightgray')  # Gris claro
 
-# Pregunta 4 - Gestión del Tiempo
+# Pregunta 4 - Concordancia entre habilidades y perfil del puesto
 dot.edge('D', 'E')
 dot.edge('E', 'E1', label='≥80% (100%)')
-dot.node('E1', 'Buena gestión del tiempo (100%)', style='filled', fillcolor='lightgray')  # Gris claro
+dot.node('E1', 'Buena  (100%)', style='filled', fillcolor='lightgray')  # Gris claro
 
 dot.edge('E', 'E2', label='50-70% (70%)')
-dot.node('E2', 'Gestión aceptable (70%)', style='filled', fillcolor='lightgray')  # Gris claro
+dot.node('E2', 'Aceptable (70%)', style='filled', fillcolor='lightgray')  # Gris claro
 
 dot.edge('E', 'E3', label='<50% (0%)')
-dot.node('E3', 'Mala gestión del tiempo (0%)', style='filled', fillcolor='lightgray')  # Gris claro
+dot.node('E3', 'Mala  (0%)', style='filled', fillcolor='lightgray')  # Gris claro
 
 # Pregunta 5 - Trabajo en equipo
 dot.edge('E', 'F')
@@ -72,7 +72,3 @@ dot.node('F3', 'Mala colaboración (0%)', style='filled', fillcolor='lightgray')
 
 # Muestra el gráfico en Google Colab
 dot
-
-#para bajar el arbol en la computadora
-from google.colab import files
-files.download('arbol_decision.png')
