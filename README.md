@@ -40,7 +40,8 @@ Cada área de evaluación está estructurada con criterios medibles y objetivos,
 
 El sistema experto organiza la información y toma decisiones utilizando un árbol de decisión, donde cada nodo representa una pregunta o condición y cada rama indica el resultado basado en la respuesta del empleado.
 
-![image](https://github.com/user-attachments/assets/91a86160-8d80-4a75-87dc-a925100abaf6)
+![image](https://github.com/user-attachments/assets/ec9a7153-4b47-4249-9310-3e68d88e367d)
+
 
 
 
