@@ -1,16 +1,23 @@
-# Ignorar archivos temporales del sistema
-.DS_Store
-Thumbs.db
 
-# Ignorar dependencias y entornos virtuales
-node_modules/
-venv/
+
+# Archivos del sistema y configuraciones locales
+*.pyc
 __pycache__/
-
-# Ignorar archivos de configuración de editores
+.DS_Store
+.env
 .vscode/
 .idea/
 
-# Ignorar archivos de entorno y configuración sensible
-.env
-config.yml
+# Dependencias y entornos virtuales
+venv/
+node_modules/
+*.log
+
+# Archivos temporales y backups
+*.tmp
+*.bak
+*.swp
+*.swo
+
+# Configuración específica del repositorio
+.gitignore
