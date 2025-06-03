@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Autoevaluación de Desempeño</title>
+</head>
+<body>
+    <h1>Autoevaluación de Desempeño</h1>
+    <form id="evaluacionForm">
+        <label>Asistencia:</label>
+        <select name="asistencia">
+            <option value="sin_faltas">Sin faltas</option>
+            <option value="faltas_justificadas">Faltas justificadas</option>
+            <option value="faltas_no_justificadas">Faltas no justificadas</option>
+        </select>
+        <br><br>
+
+        <label>Cumplimiento de objetivos:</label>
+        <select name="cumplimiento">
+            <option value="cumplido">Cumplido</option>
+            <option value="razón_grupal">No cumplido por razón grupal</option>
+            <option value="razón_personal">No cumplido por razón personal</option>
+        </select>
+        <br><br>
+
+        <button type="button" onclick="enviarEvaluacion()">Enviar Evaluación</button>
+    </form>
+
+    <script>
+        function enviarEvaluacion() {
+            let formData = {
+                asistencia: document.querySelector('select[name="asistencia"]').value,
+                cumplimiento: document.querySelector('select[name="cumplimiento"]').value
+            };
+
+            fetch('http://127.0.0.1:5000/evaluacion', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => alert("Resultado: " + JSON.stringify(data)))
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>
