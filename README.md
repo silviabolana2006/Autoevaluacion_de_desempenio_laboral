@@ -62,17 +62,22 @@ Instalación:
 Para instalar y ejecutar este sistema experto, sigue estos pasos:
 ## **1. Clonar el repositorio**
 Primero, descarga el código en tu equipo:
-```bashgit clone <URL_DEL_REPOSITORIO>                                        EN PROCESo
+```bashgit clone <URL_DEL_REPOSITORIO>                                        
 
 
 ## Estructura del Proyecto
 
-- `datos/` - Contiene archivos de datos utilizados por el sistema experto.
-- `Docs/` - Documentación técnica y de usuario.
-- `Informes/` - Reportes generados por el sistema.
-- `sistema/` - Código fuente del sistema experto.
-- `Plantillas/` - Archivos de configuración o plantillas para informes.
-- `app.py` - Archivo principal para ejecutar la aplicación.
-- `requirements.txt` - Lista de dependencias necesarias para el proyecto.
-- `pyproject.toml` - Archivo de configuración para paquetes en Python.
-Este README garantiza que cualquiera que descargue el proyecto tenga instrucciones claras sobre cómo instalarlo y ejecutarlo.
+- `data/` - Contiene archivos de datos utilizados por el sistema experto.  
+- `docs/` - Documentación técnica y de usuario.  
+- `reports/` - Reportes generados por el sistema.  
+- `system/` - Código fuente del sistema experto.  
+- `templates/` - Archivos de configuración y plantillas para informes.  
+- `static/` - Archivos CSS, JS e imágenes del frontend.  
+- `app.py` - Archivo principal para ejecutar la aplicación Flask.  
+- `index.html` - Formulario web para la evaluación.  
+- `requirements.txt` - Lista de dependencias necesarias para el proyecto.  
+- `pyproject.toml` - Archivo de configuración para paquetes en Python.  
+- `setup.cfg` - Archivo de configuración adicional.  
+- `.gitignore` - Archivos que no deben subirse al repositorio.  
+- `License` - Licencia del proyecto.  
+- `Makefile` - Script para automatizar tareas.  
