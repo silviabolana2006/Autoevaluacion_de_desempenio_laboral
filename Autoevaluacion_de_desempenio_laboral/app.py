@@ -1,82 +1,88 @@
 from flask import Flask, request, jsonify
+import json
 
 app = Flask(__name__)
 
-# JSON estructurado como referencia interna para la evaluación
-AUTOEVALUACION_CONFIG = {
-    "asistencia": {
+# JSON de evaluación
+evaluacion_json = '''{
+  "Autoevaluación_de_desempeño_laboral": {
+    "pregunta_1": {
+      "tipo": "Asistencia",
+      "opciones": {
         "sin_faltas": 100,
         "faltas": {
-            "justificada": 100,
-            "no_justificada": 0,
-            "llegadas_tarde": 0
+          "justificada": 100,
+          "no_justificada": 0,
+          "llegadas_tarde": 0
         }
+      }
     },
-    "cumplimiento": {
+    "pregunta_2": {
+      "tipo": "Cumplimiento de objetivos",
+      "opciones": {
         "cumplido": 100,
         "no_cumplido": {
-            "razón_grupal": 50,
-            "razón_personal": 0
+          "razón_grupal": 50,
+          "razón_personal": 0
         }
+      }
     },
-    "perfil": {
-        "menor_50": 0,
-        "50_70": 70,
-        "mayor_80": 100
+    "pregunta_3": {
+      "tipo": "Desempeño y responsabilidad",
+      "opciones": {
+        "cumple": "porcentaje_ingresado",
+        "no_cumple": 0
+      }
     },
-    "equipo": {
-        "menor_50": 0,
-        "50_70": 70,
-        "mayor_80": 100
+    "pregunta_4": {
+      "tipo": "Concordancia entre habilidades y perfil del puesto",
+      "opciones": {
+        "porcentaje_ingresado": {
+          "menor_50": 0,
+          "50_70": 70,
+          "mayor_80": 100
+        }
+      }
+    },
+    "pregunta_5": {
+      "tipo": "Trabajo en equipo y colaboración",
+      "opciones": {
+        "porcentaje_ingresado": {
+          "menor_50": 0,
+          "50_70": 70,
+          "mayor_80": 100
+        }
+      }
     }
-}
+  }
+}'''
 
-def procesar_evaluacion(datos):
-    puntaje_total = 0
+evaluacion = json.loads(evaluacion_json)
 
-    # Evaluar asistencia
-    asistencia = datos.get("asistencia")
-    if asistencia in AUTOEVALUACION_CONFIG["asistencia"]:
-        puntaje_total += AUTOEVALUACION_CONFIG["asistencia"][asistencia]
-    elif asistencia in AUTOEVALUACION_CONFIG["asistencia"]["faltas"]:
-        puntaje_total += AUTOEVALUACION_CONFIG["asistencia"]["faltas"][asistencia]
+def calcular_puntaje(datos):
+    puntajes = []
+    for pregunta, respuesta in datos.items():
+        opciones = evaluacion["Autoevaluación_de_desempeño_laboral"].get(pregunta, {}).get("opciones", {})
 
-    # Evaluar cumplimiento de objetivos
-    cumplimiento = datos.get("cumplimiento")
-    if cumplimiento in AUTOEVALUACION_CONFIG["cumplimiento"]:
-        puntaje_total += AUTOEVALUACION_CONFIG["cumplimiento"][cumplimiento]
-    elif cumplimiento in AUTOEVALUACION_CONFIG["cumplimiento"]["no_cumplido"]:
-        puntaje_total += AUTOEVALUACION_CONFIG["cumplimiento"]["no_cumplido"][cumplimiento]
+        if pregunta == "pregunta_3":
+            try:
+                puntaje = int(respuesta)
+            except ValueError:
+                puntaje = 0
+        elif isinstance(opciones.get(respuesta), dict):
+            puntaje = opciones.get("porcentaje_ingresado", {}).get(respuesta, 0)
+        else:
+            puntaje = opciones.get(respuesta, 0)
 
-    # Evaluar desempeño y responsabilidad
-    desempeño = int(datos.get("desempeño", 0))
-    puntaje_total += desempeño
+        puntajes.append(puntaje)
 
-    # Evaluar concordancia con el perfil del puesto
-    perfil = int(datos.get("perfil", 0))
-    perfil_puntaje = (
-        AUTOEVALUACION_CONFIG["perfil"]["mayor_80"] if perfil > 80 else
-        AUTOEVALUACION_CONFIG["perfil"]["50_70"] if 50 <= perfil <= 70 else
-        AUTOEVALUACION_CONFIG["perfil"]["menor_50"]
-    )
-    puntaje_total += perfil_puntaje
-
-    # Evaluar trabajo en equipo
-    equipo = int(datos.get("equipo", 0))
-    equipo_puntaje = (
-        AUTOEVALUACION_CONFIG["equipo"]["mayor_80"] if equipo > 80 else
-        AUTOEVALUACION_CONFIG["equipo"]["50_70"] if 50 <= equipo <= 70 else
-        AUTOEVALUACION_CONFIG["equipo"]["menor_50"]
-    )
-    puntaje_total += equipo_puntaje
-
-    return {"puntaje_total": puntaje_total}
+    return sum(puntajes) / len(puntajes)
 
 @app.route('/evaluacion', methods=['POST'])
-def evaluar_desempeño():
+def evaluar():
     datos = request.json
-    resultado = procesar_evaluacion(datos)
-    return jsonify(resultado)
+    puntaje_total = calcular_puntaje(datos)
+    return jsonify({"puntaje_total": round(puntaje_total, 2)})
 
 if __name__ == '__main__':
     app.run(debug=True)
