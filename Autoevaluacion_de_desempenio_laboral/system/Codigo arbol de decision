@@ -4,6 +4,7 @@ from graphviz import Digraph
 # Crea el árbol de decisión
 dot = Digraph(comment='Árbol de Decisión - Autoevaluación')
 
+
 # Nodos principales con estilos
 dot.node('A', 'Empleado', style='filled', fillcolor='lightgreen')  # Verde claro
 dot.node('B', '¿Tuvo asistencia completa?')
