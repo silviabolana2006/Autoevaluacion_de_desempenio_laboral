@@ -1,4 +1,4 @@
-## Tecnicaturatura Superior en Ciencia de Datos e Inteligencia Artificial.More actions
+## Tecnicaturatura Superior en Ciencia de Datos e Inteligencia Artificial
 
 Politécnico Malvinas Argentinas.
 
