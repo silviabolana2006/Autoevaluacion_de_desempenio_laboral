@@ -60,8 +60,9 @@ Enlace video_
 
 Instalación:
 Para instalar y ejecutar este sistema experto, sigue estos pasos:
-## **1. Clonar el repositorio**
-Primero, descarga el código en tu equipo:
+
+## 1. Clonar el repositorio
+descarga el código en tu equipo:
 ```bashgit clone <URL_DEL_REPOSITORIO>                                        
 
 
