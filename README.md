@@ -61,9 +61,32 @@ Enlace video_
 Instalación:
 Para instalar y ejecutar este sistema experto, sigue estos pasos:
 
-## 1. Clonar el repositorio
-descarga el código en tu equipo:
-```bashgit clone <URL_DEL_REPOSITORIO>                                        
+### Aquí tienes una versión más clara y estructurada:
+
+### Descargar en ZIP o Clonar el Repositorio
+
+Para obtener el código en tu equipo, puedes elegir entre las siguientes opciones:
+
+1. **Descargar en formato ZIP**  
+   - Ingresa a la página web del repositorio.  
+   - Busca la opción **"Download ZIP"**.  
+   - Una vez descargado, extrae los archivos en tu equipo.  
+
+2. **Clonar el repositorio**  
+   - Abre una terminal o consola en tu equipo.  
+   - Ejecuta el siguiente comando:  
+     ```bash
+     git clone <URL_DEL_REPOSITORIO>
+     ```
+   - Luego, navega al directorio del repositorio:  
+     ```bash
+     cd <NOMBRE_DEL_REPOSITORIO>
+     ```
+   - Ahora puedes acceder y utilizar el sistema experto.  
+
+
+
+                                  
 
 
 ## Estructura del Proyecto
