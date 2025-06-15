@@ -61,8 +61,6 @@ Enlace video_
 Instalación:
 Para instalar y ejecutar este sistema experto, sigue estos pasos:
 
-### Aquí tienes una versión más clara y estructurada:
-
 ### Descargar en ZIP o Clonar el Repositorio
 
 Para obtener el código en tu equipo, puedes elegir entre las siguientes opciones:
