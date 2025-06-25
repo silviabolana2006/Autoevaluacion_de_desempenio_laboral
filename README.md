@@ -56,7 +56,7 @@ Flask framework
 
 Enlace video_
 
-## Pasos para ejecutar el Sistema Exoerto
+## Pasos para ejecutar el Sistema Experto
 
 Instalación:
 Para instalar y ejecutar este sistema experto, sigue estos pasos:
