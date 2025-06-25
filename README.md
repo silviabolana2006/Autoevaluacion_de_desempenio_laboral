@@ -54,7 +54,7 @@ Lenguaje python
 
 Flask framework
 
-Enlace video_
+Enlace video: https://drive.google.com/file/d/1cLHIRIvLz37prIXDfZAf-3s50PP8UHm-/view?usp=sharing
 
 ## Pasos para ejecutar el Sistema Experto
 
@@ -89,7 +89,8 @@ Para obtener el código en tu equipo, puedes elegir entre las siguientes opcione
 
 ## Estructura del Proyecto
 
-- `data/` - Contiene archivos de datos utilizados por el sistema experto.  
+- `data/` - Contiene archivos de datos utilizados por el sistema experto.
+- 'video/'- coniene video explicativo del sistema experto
 - `docs/` - Documentación técnica y de usuario.  
 - `reports/` - Reportes generados por el sistema.  
 - `system/` - Código fuente del sistema experto.  
