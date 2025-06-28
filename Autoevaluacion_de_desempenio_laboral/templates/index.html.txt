@@ -3,93 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autoevaluación de Desempeño</title>
+    <title>Autoevaluación de Desempeño Laboral</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding in width */
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resultado {
+            margin-top: 25px;
+            padding: 15px;
+            border: 1px solid #28a745;
+            background-color: #e6ffe6;
+            color: #1a6d2f;
+            border-radius: 5px;
+            font-size: 1.1em;
+            text-align: center;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-    <h1>Bienvenido al sistema de Autoevaluación de desempeño</h1>
-    <p>A continuación deberá responder las preguntas solicitadas. El sistema le arrojará un resultado que será enviado a su mail y a RRHH para su revisión final. Le agradecemos su colaboración.</p>
-    
-    <h2>Formulario de Autoevaluación</h2>
+    <div class="container">
+        <h1>Autoevaluación de Desempeño Laboral</h1>
+        <form id="evaluacionForm">
+            <div class="question-group">
+                <label for="pregunta_1">1. Asistencia:</label>
+                <select id="pregunta_1" name="pregunta_1">
+                    <option value="sin_faltas">Sin faltas</option>
+                    <option value="faltas.justificada">Faltas justificadas</option>
+                    <option value="faltas.no_justificada">Faltas no justificadas</option>
+                    <option value="llegadas_tarde">Llegadas tarde</option>
+                </select>
+            </div>
 
-    <form id="evaluacionForm">
-        <label>Nombre del empleado:</label>
-        <input type="text" name="nombre" required><br><br>
+            <div class="question-group">
+                <label for="pregunta_2_estado">2. Cumplimiento de objetivos:</label>
+                <select id="pregunta_2_estado" name="pregunta_2_estado" onchange="toggleRazon()">
+                    <option value="cumplido">Cumplido</option>
+                    <option value="no_cumplido">No cumplido</option>
+                </select>
+                <div id="razon_div" style="display: none; margin-top: 10px;">
+                    <label for="pregunta_2_razon">Razón (si no cumplido):</label>
+                    <select id="pregunta_2_razon" name="pregunta_2_razon">
+                        <option value="">Seleccione</option>
+                        <option value="grupal">Razón grupal</option>
+                        <option value="personal">Razón personal</option>
+                    </select>
+                </div>
+            </div>
 
-        <label>Asistencia:</label>
-        <select name="asistencia">
-            <option value="sin_faltas">Sin faltas</option>
-            <option value="faltas_justificadas">Faltas justificadas</option>
-            <option value="faltas_no_justificadas">Faltas no justificadas</option>
-            <option value="llegadas_tarde">Llegadas tarde</option>
-        </select><br><br>
+            <div class="question-group">
+                <label for="pregunta_3_estado">3. Desempeño y responsabilidad:</label>
+                <select id="pregunta_3_estado" name="pregunta_3_estado" onchange="toggleDesempenoValor()">
+                    <option value="cumple">Cumple</option>
+                    <option value="no_cumple">No cumple</option>
+                </select>
+                <div id="desempeno_valor_div" style="display: none; margin-top: 10px;">
+                    <label for="pregunta_3_valor">Porcentaje de cumplimiento (0-100):</label>
+                    <input type="number" id="pregunta_3_valor" name="pregunta_3_valor" min="0" max="100" placeholder="Ej: 90">
+                </div>
+            </div>
 
-        <label>Cumplimiento de objetivos:</label>
-        <select name="cumplimiento">
-            <option value="cumplido">Cumplido</option>
-            <option value="razón_grupal">No cumplido por razón grupal</option>
-            <option value="razón_personal">No cumplido por razón personal</option>
-        </select><br><br>
+            <div class="question-group">
+                <label for="pregunta_4">4. Concordancia entre habilidades y perfil del puesto (%):</label>
+                <input type="number" id="pregunta_4" name="pregunta_4" min="0" max="100" placeholder="Ej: 85">
+            </div>
 
-        <label>Desempeño y responsabilidad (0-100):</label>
-        <input type="number" name="desempeño" min="0" max="100"><br><br>
+            <div class="question-group">
+                <label for="pregunta_5">5. Trabajo en equipo y colaboración (%):</label>
+                <input type="number" id="pregunta_5" name="pregunta_5" min="0" max="100" placeholder="Ej: 70">
+            </div>
 
-        <label>Concordancia con el perfil (0-100):</label>
-        <input type="number" name="perfil" min="0" max="100"><br><br>
+            <button type="submit">Calcular Puntaje</button>
+        </form>
 
-        <label>Trabajo en equipo (0-100):</label>
-        <input type="number" name="equipo" min="0" max="100"><br><br>
-
-        <button type="button" onclick="enviarEvaluacion()">Enviar Evaluación</button>
-    </form>
+        <div id="resultado" style="display: none;">
+            Puntaje Total: <span id="puntaje_total"></span>
+        </div>
+        <div id="error-message" class="error-message" style="display: none;"></div>
+    </div>
 
     <script>
-        function enviarEvaluacion() {
-            let nombre = document.querySelector('input[name="nombre"]').value;
-            let asistencia = document.querySelector('select[name="asistencia"]').value;
-            let cumplimiento = document.querySelector('select[name="cumplimiento"]').value;
-            let desempeño = document.querySelector('input[name="desempeño"]').value;
-            let perfil = document.querySelector('input[name="perfil"]').value;
-            let equipo = document.querySelector('input[name="equipo"]').value;
+        document.getElementById('evaluacionForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
-            // Validaciones
-            if (!nombre.trim()) {
-                alert("Por favor, ingresa el nombre del empleado.");
-                return;
-            }
+            const formData = {};
 
-            if (desempeño === "" || perfil === "" || equipo === "") {
-                alert("Por favor, completa todos los campos numéricos.");
-                return;
-            }
+            // Pregunta 1: Asistencia
+            formData.pregunta_1 = document.getElementById('pregunta_1').value;
 
-            if (desempeño < 0 || desempeño > 100 || perfil < 0 || perfil > 100 || equipo < 0 || equipo > 100) {
-                alert("Los valores deben estar entre 0 y 100.");
-                return;
-            }
-
-            let formData = {
-                nombre: nombre,
-                asistencia: asistencia,
-                cumplimiento: cumplimiento,
-                desempeño: Number(desempeño),
-                perfil: Number(perfil),
-                equipo: Number(equipo)
+            // Pregunta 2: Cumplimiento de objetivos
+            const p2_estado = document.getElementById('pregunta_2_estado').value;
+            formData.pregunta_2 = {
+                estado: p2_estado
             };
-
-            fetch('http://127.0.0.1:5000/evaluacion', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error en la respuesta del servidor.");
+            if (p2_estado === 'no_cumplido') {
+                const p2_razon = document.getElementById('pregunta_2_razon').value;
+                if (!p2_razon) {
+                    displayError("Por favor, selecciona una razón para el incumplimiento de objetivos.");
+                    return;
                 }
-                return response.json();
-            })
-            .then(data => alert("Puntaje total para " + nombre + ": " + data.puntaje_total))
-            .catch(error => alert("Error: " + error.message));
+                formData.pregunta_2.razon = p2_razon;
+            }
+
+            // Pregunta 3: Desempeño y responsabilidad
+            const p3_estado = document.getElementById('pregunta_3_estado').value;
+            formData.pregunta_3 = {
+                estado: p3_estado
+            };
+            if (p3_estado === 'cumple') {
+                const p3_valor = document.getElementById('pregunta_3_valor').value;
+                if (p3_valor === "" || isNaN(parseInt(p3_valor))) {
+                    displayError("Por favor, ingresa un porcentaje para el desempeño si 'cumple'.");
+                    return;
+                }
+                formData.pregunta_3.valor_ingresado = parseInt(p3_valor);
+            }
+
+            // Pregunta 4: Habilidades
+            const p4_valor = document.getElementById('pregunta_4').value;
+            if (p4_valor === "" || isNaN(parseInt(p4_valor))) {
+                displayError("Por favor, ingresa un porcentaje para la concordancia de habilidades.");
+                return;
+            }
+            formData.pregunta_4 = parseInt(p4_valor);
+
+            // Pregunta 5: Trabajo en equipo
+            const p5_valor = document.getElementById('pregunta_5').value;
+            if (p5_valor === "" || isNaN(parseInt(p5_valor))) {
+                displayError("Por favor, ingresa un porcentaje para el trabajo en equipo.");
+                return;
+            }
+            formData.pregunta_5 = parseInt(p5_valor);
+            
+            console.log("Datos a enviar:", formData); // Para depuración
+
+            try {
+                const response = await fetch('/evaluacion', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Error al obtener el puntaje.');
+                }
+
+                const data = await response.json();
+                document.getElementById('puntaje_total').textContent = data.puntaje_total;
+                document.getElementById('resultado').style.display = 'block';
+                document.getElementById('error-message').style.display = 'none';
+
+            } catch (error) {
+                console.error('Error:', error);
+                displayError("Hubo un error al procesar tu solicitud: " + error.message);
+                document.getElementById('resultado').style.display = 'none';
+            }
+        });
+
+        function toggleRazon() {
+            const estadoSelect = document.getElementById('pregunta_2_estado');
+            const razonDiv = document.getElementById('razon_div');
+            if (estadoSelect.value === 'no_cumplido') {
+                razonDiv.style.display = 'block';
+            } else {
+                razonDiv.style.display = 'none';
+                document.getElementById('pregunta_2_razon').value = ""; // Limpiar selección al ocultar
+            }
         }
+
+        function toggleDesempenoValor() {
+            const estadoSelect = document.getElementById('pregunta_3_estado');
+            const valorDiv = document.getElementById('desempeno_valor_div');
+            if (estadoSelect.value === 'cumple') {
+                valorDiv.style.display = 'block';
+            } else {
+                valorDiv.style.display = 'none';
+                document.getElementById('pregunta_3_valor').value = ""; // Limpiar valor al ocultar
+            }
+        }
+
+        function displayError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        // Inicializar los estados correctos al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleRazon();
+            toggleDesempenoValor();
+        });
     </script>
 </body>
 </html>
