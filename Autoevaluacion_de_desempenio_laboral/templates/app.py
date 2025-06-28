@@ -3,86 +3,122 @@ import json
 
 app = Flask(__name__)
 
-# JSON de evaluación
+# JSON de evaluación (simplificado, las reglas de puntuación están en la función)
+# Este JSON ahora define los tipos de preguntas para una mejor organización
 evaluacion_json = '''{
-  "Autoevaluación_de_desempeño_laboral": {
-    "pregunta_1": {
-      "tipo": "Asistencia",
-      "opciones": {
-        "sin_faltas": 100,
-        "faltas": {
-          "justificada": 100,
-          "no_justificada": 0,
-          "llegadas_tarde": 0
+    "Autoevaluación_de_desempeño_laboral": {
+        "pregunta_1": {
+            "tipo": "asistencia"
+        },
+        "pregunta_2": {
+            "tipo": "cumplimiento"
+        },
+        "pregunta_3": {
+            "tipo": "desempeño"
+        },
+        "pregunta_4": {
+            "tipo": "habilidades"
+        },
+        "pregunta_5": {
+            "tipo": "trabajo_equipo"
         }
-      }
-    },
-    "pregunta_2": {
-      "tipo": "Cumplimiento de objetivos",
-      "opciones": {
-        "cumplido": 100,
-        "no_cumplido": {
-          "razón_grupal": 50,
-          "razón_personal": 0
-        }
-      }
-    },
-    "pregunta_3": {
-      "tipo": "Desempeño y responsabilidad",
-      "opciones": {
-        "cumple": "porcentaje_ingresado",
-        "no_cumple": 0
-      }
-    },
-    "pregunta_4": {
-      "tipo": "Concordancia entre habilidades y perfil del puesto",
-      "opciones": {
-        "porcentaje_ingresado": {
-          "menor_50": 0,
-          "50_70": 70,
-          "mayor_80": 100
-        }
-      }
-    },
-    "pregunta_5": {
-      "tipo": "Trabajo en equipo y colaboración",
-      "opciones": {
-        "porcentaje_ingresado": {
-          "menor_50": 0,
-          "50_70": 70,
-          "mayor_80": 100
-        }
-      }
     }
-  }
 }'''
 
 evaluacion = json.loads(evaluacion_json)
 
 def calcular_puntaje(datos):
+    """
+    Calcula el puntaje total de la autoevaluación basándose en las reglas definidas.
+    """
     puntajes = []
-    for pregunta, respuesta in datos.items():
-        opciones = evaluacion["Autoevaluación_de_desempeño_laboral"].get(pregunta, {}).get("opciones", {})
+    preguntas_definidas = evaluacion["Autoevaluación_de_desempeño_laboral"]
 
-        if pregunta == "pregunta_3":
+    for pregunta_key, respuesta_data in datos.items():
+        if pregunta_key not in preguntas_definidas:
+            # Ignora preguntas que no estén definidas en nuestro esquema de evaluación
+            continue 
+
+        tipo_pregunta = preguntas_definidas[pregunta_key]["tipo"]
+        puntaje_obtenido = 0 # Inicializa el puntaje para cada pregunta
+
+        if tipo_pregunta == "asistencia":
+            # Reglas para "asistencia" (pregunta_1)
+            if respuesta_data == "sin_faltas" or respuesta_data == "faltas.justificada":
+                puntaje_obtenido = 100
+            elif respuesta_data == "faltas.no_justificada" or respuesta_data == "llegadas_tarde":
+                puntaje_obtenido = 0
+            
+        elif tipo_pregunta == "cumplimiento":
+            # Reglas para "cumplimiento de objetivos" (pregunta_2)
+            # Esperamos un diccionario con "estado" y opcionalmente "razon"
+            estado = respuesta_data.get("estado")
+            razon = respuesta_data.get("razon")
+
+            if estado == "cumplido":
+                puntaje_obtenido = 100
+            elif estado == "no_cumplido":
+                if razon == "grupal":
+                    puntaje_obtenido = 50
+                elif razon == "personal":
+                    puntaje_obtenido = 0
+            
+        elif tipo_pregunta == "desempeño":
+            # Reglas para "desempeño y responsabilidad" (pregunta_3)
+            # Esperamos un diccionario con "estado" y "valor_ingresado"
+            if isinstance(respuesta_data, dict) and respuesta_data.get("estado") == "cumple":
+                try:
+                    # El puntaje es el valor numérico ingresado
+                    puntaje_ingresado = int(respuesta_data.get("valor_ingresado", 0))
+                    # Aseguramos que el puntaje no exceda 100
+                    if puntaje_ingresado > 100:
+                        puntaje_obtenido = 100
+                    else:
+                        puntaje_obtenido = puntaje_ingresado
+                except ValueError:
+                    # Si el valor ingresado no es un número, se considera 0
+                    puntaje_obtenido = 0 
+            elif isinstance(respuesta_data, dict) and respuesta_data.get("estado") == "no_cumple":
+                puntaje_obtenido = 0
+            
+        elif tipo_pregunta == "habilidades" or tipo_pregunta == "trabajo_equipo":
+            # Reglas para "habilidades" (pregunta_4) y "trabajo en equipo" (pregunta_5)
+            # Ambas usan el mismo rango porcentual
             try:
-                puntaje = int(respuesta)
+                # Se espera un porcentaje entero directamente como respuesta_data
+                porcentaje = int(respuesta_data)
+                if porcentaje >= 80:
+                    puntaje_obtenido = 100
+                elif 50 <= porcentaje < 80:
+                    puntaje_obtenido = 70
+                else: # porcentaje < 50
+                    puntaje_obtenido = 0
             except ValueError:
-                puntaje = 0
-        elif isinstance(opciones.get(respuesta), dict):
-            puntaje = opciones.get("porcentaje_ingresado", {}).get(respuesta, 0)
-        else:
-            puntaje = opciones.get(respuesta, 0)
+                # Si el valor no es numérico, se considera 0
+                puntaje_obtenido = 0 
+        
+        puntajes.append(puntaje_obtenido)
 
-        puntajes.append(puntaje)
+    if not puntajes:
+        # Si no se evaluó ninguna pregunta válida, el puntaje total es 0
+        return 0 
 
+    # Calcula el promedio de los puntajes obtenidos
     return sum(puntajes) / len(puntajes)
 
 @app.route('/evaluacion', methods=['POST'])
 def evaluar():
+    """
+    Endpoint para recibir los datos de la autoevaluación y devolver el puntaje total.
+    Los datos deben enviarse como JSON en el cuerpo de la solicitud POST.
+    """
     datos = request.json
+    if not datos:
+        return jsonify({"error": "No se recibieron datos de evaluación. Por favor, envía un JSON con tus respuestas."}), 400
+        
     puntaje_total = calcular_puntaje(datos)
     return jsonify({"puntaje_total": round(puntaje_total, 2)})
 
 if __name__ == '__main__':
+    # Ejecuta la aplicación Flask en modo de depuración para desarrollo
     app.run(debug=True)
