@@ -2,32 +2,56 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario de Autoevaluación</title>
+    <title>Autoevaluación de Desempeño</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+    <script>
+        // Validación básica del formulario
+        function validarFormulario() {
+            const campos = document.querySelectorAll("input[type='number'], select");
+            for (let campo of campos) {
+                if (campo.value === "" || campo.value === null) {
+                    alert("Por favor, complete todas las respuestas antes de enviar.");
+                    campo.focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <h1>Bienvenido al Sistema Experto de Autoevaluación de Desempeño Laboral</h1>
 
     <p>
-        A continuación deberá responder las preguntas solicitadas. El sistema le arrojará un resultado 
+        A continuación deberá responder las preguntas solicitadas. El sistema le arrojará un resultado
         que será enviado a su mail y a RRHH para su revisión final.<br>
-        Le agradecemos su colaboración.
+        <strong>Le agradecemos su colaboración.</strong>
     </p>
 
-    <form method="POST" action="/resultado">
+    <form method="POST" action="/resultado" onsubmit="return validarFormulario();">
         {% for clave, datos in base.items() %}
-            <label>{{ datos.pregunta }}</label><br>
-            {% if datos.tipo == 'porcentaje' or datos.tipo == 'rango' %}
-                <input type="number" name="{{ clave }}" min="0" max="100" required><br><br>
-            {% else %}
-                <select name="{{ clave }}" required>
-                    {% for opcion in datos.respuestas %}
-                        <option value="{{ opcion }}">{{ opcion }}</option>
-                    {% endfor %}
-                </select><br><br>
-            {% endif %}
+            <fieldset>
+                <legend>{{ datos.pregunta }}</legend>
+
+                {% if datos.tipo == 'porcentaje' or datos.tipo == 'rango' %}
+                    <input type="number" name="{{ clave }}" min="0" max="100" required>
+                {% else %}
+                    <select name="{{ clave }}" required>
+                        <option value="" disabled selected>Seleccione una opción</option>
+                        {% for opcion in datos.respuestas %}
+                            <option value="{{ opcion }}">{{ opcion }}</option>
+                        {% endfor %}
+                    </select>
+                {% endif %}
+            </fieldset>
         {% endfor %}
         <button type="submit">Enviar Evaluación</button>
     </form>
+
+    <footer>
+        <p style="font-size: small; color: #777; margin-top: 20px;">
+            Sistema desarrollado con fines de autoevaluación profesional. Todos los datos ingresados serán tratados con confidencialidad.
+        </p>
+    </footer>
 </body>
 </html>
