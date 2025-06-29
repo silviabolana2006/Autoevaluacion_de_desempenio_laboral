@@ -91,24 +91,43 @@ Para obtener el código en tu equipo, puedes elegir entre las siguientes opcione
 
 ## Estructura del Proyecto
 Autoevaluacion_desempeño_laboral/
+
 ├── app.py
+
 ├── main.py
+
 ├── requirements.txt
+
 ├── README.md
+
 ├── experto_general/
+
 │   ├── base.py
+
 │   ├── engine.py
+
 │   └── __init__.py
+
 ├── templates/
+
 │   ├── formulario.html
+
 │   └── resultado.html
+
 ├── static/
+
 │   └── estilo.css
+
 ├── Data/
+
 │   └── evaluaciones_guardadas.json
+
 ├── Video/
+
 │   └── demo_sistema_experto.mp4
+
 └── docs/
+
     ├── manual_usuario.md
     ├── manual_tecnico.md
     └── arbol_decision.png
