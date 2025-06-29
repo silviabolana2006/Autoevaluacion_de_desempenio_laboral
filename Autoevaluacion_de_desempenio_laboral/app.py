@@ -23,4 +23,4 @@ def resultado():
     else:
         mensaje = f"🔴 Necesita mejorar ({puntaje}%)"
 
-    return render_template('resultado.html', mensaje=mensaje)
+    return render_template("resultado.html", mensaje=mensaje)
