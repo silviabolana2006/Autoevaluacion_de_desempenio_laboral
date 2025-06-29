@@ -2,11 +2,18 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Autoevaluación</title>
+    <title>Formulario de Autoevaluación</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
 </head>
 <body>
-    <h1>Formulario de Autoevaluación</h1>
+    <h1>Bienvenido al Sistema Experto de Autoevaluación de Desempeño Laboral</h1>
+
+    <p>
+        A continuación deberá responder las preguntas solicitadas. El sistema le arrojará un resultado 
+        que será enviado a su mail y a RRHH para su revisión final.<br>
+        Le agradecemos su colaboración.
+    </p>
+
     <form method="POST" action="/resultado">
         {% for clave, datos in base.items() %}
             <label>{{ datos.pregunta }}</label><br>
