@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Autoevaluación</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
+</head>
+<body>
+    <h1>Formulario de Autoevaluación</h1>
+    <form method="POST" action="/resultado">
+        {% for clave, datos in base.items() %}
+            <label>{{ datos.pregunta }}</label><br>
+            {% if datos.tipo == 'porcentaje' or datos.tipo == 'rango' %}
+                <input type="number" name="{{ clave }}" min="0" max="100" required><br><br>
+            {% else %}
+                <select name="{{ clave }}" required>
+                    {% for opcion in datos.respuestas %}
+                        <option value="{{ opcion }}">{{ opcion }}</option>
+                    {% endfor %}
+                </select><br><br>
+            {% endif %}
+        {% endfor %}
+        <button type="submit">Enviar Evaluación</button>
+    </form>
+</body>
+</html>
