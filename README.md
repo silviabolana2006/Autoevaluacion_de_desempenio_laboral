@@ -91,15 +91,44 @@ Para obtener el código en tu equipo, puedes elegir entre las siguientes opcione
 
 Autoevaluacion_desempeño_laboral/
 
-├── app.py                     ← Lógica de la app web con Flask
+├── app.py
+
+├── main.py
+
+├── requirements.txt
+
+├── README.md
+
 ├── experto_general/
-│   ├── base.py                ← Base de conocimiento
-│   ├── engine.py              ← Motor de inferencia
+
+│   ├── base.py
+
+│   ├── engine.py
+
 │   └── __init__.py
+
 ├── templates/
-│   ├── formulario.html        ← Formulario HTML con preguntas
-│   └── resultado.html         ← Resultado visual con el puntaje
+
+│   ├── formulario.html
+
+│   └── resultado.html
+
 ├── static/
-│   └── estilo.css             ← Estilos visuales opcionales
-├── main.py                    ← (Solo si querés usar consola)
-└── requirements.txt
+
+│   └── estilo.css
+
+├── Data/
+
+│   └── evaluaciones_guardadas.json
+
+├── Video/
+
+│   └── demo_sistema_experto.mp4
+
+└── docs/
+
+    ├── manual_usuario.md
+    
+    ├── manual_tecnico.md
+    
+    └── arbol_decision.png
