@@ -89,18 +89,17 @@ Para obtener el código en tu equipo, puedes elegir entre las siguientes opcione
 
 ## Estructura del Proyecto
 
-- `Data/` - Contiene archivos de datos utilizados por el sistema experto.
-- 'Video/'- Contiene video explicativo del sistema experto.
-- `docs/` - Documentación técnica y de usuario.  
-- `reports/` - Reportes generados por el sistema.  
-- `system/` - Código fuente del sistema experto.  
-- `templates/` - Archivos de configuración y plantillas para informes.  
-- `static/` - Archivos CSS, JS e imágenes del frontend.  
-- `app.py` - Archivo principal para ejecutar la aplicación Flask.  
-- `index.html` - Formulario web para la evaluación.  
-- `requirements.txt` - Lista de dependencias necesarias para el proyecto.  
-- `pyproject.toml` - Archivo de configuración para paquetes en Python.  
-- `setup.cfg` - Archivo de configuración adicional.  
-- `.gitignore` - Archivos que no deben subirse al repositorio.  
-- `License` - Licencia del proyecto.  
-- `Makefile` - Script para automatizar tareas.  
+Autoevaluacion_desempeño_laboral/
+
+├── app.py                     ← Lógica de la app web con Flask
+├── experto_general/
+│   ├── base.py                ← Base de conocimiento
+│   ├── engine.py              ← Motor de inferencia
+│   └── __init__.py
+├── templates/
+│   ├── formulario.html        ← Formulario HTML con preguntas
+│   └── resultado.html         ← Resultado visual con el puntaje
+├── static/
+│   └── estilo.css             ← Estilos visuales opcionales
+├── main.py                    ← (Solo si querés usar consola)
+└── requirements.txt
