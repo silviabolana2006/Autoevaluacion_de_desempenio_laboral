@@ -64,7 +64,7 @@ Cómo ejecutar el sistema experto
   
 - Si estás en GitHub:
   
-git clone https://github.com/usuario/repositorio.git
+git clone https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_laboral.git
 
 - O descargá el archivo .zip y descomprimilo.
   
