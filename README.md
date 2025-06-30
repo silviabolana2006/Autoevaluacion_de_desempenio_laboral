@@ -134,8 +134,7 @@ Autoevaluacion_desempeño_laboral/
 │   └── demo_sistema_experto.mp4
 
 └── docs/
-
-    ├── manual_usuario.md
+  
     ├── manual_tecnico.md
     └── arbol_decision.png
-
+    Autoevaluacion_desempeño_laboral/
