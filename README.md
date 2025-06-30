@@ -61,37 +61,37 @@ Enlace video: https://drive.google.com/file/d/1cLHIRIvLz37prIXDfZAf-3s50PP8UHm-/
 Cómo ejecutar el sistema experto
 
 - Cloná o descargá el proyecto
-- 
+  
 - Si estás en GitHub:
-- 
+  
 git clone https://github.com/usuario/repositorio.git
 
 - O descargá el archivo .zip y descomprimilo.
-- 
+  
 - Abrí una terminal en la carpeta del proyecto Navegá hasta el directorio principal, por ejemplo:
-- 
+  
 cd "C:\Ruta\al\proyecto\Autoevaluacion_de_desempenio_laboral"
 
 - (Opcional) Activá un entorno virtual Para mantener tus dependencias organizadas:
-- 
+  
 python -m venv venv
 
 venv\Scripts\activate   En Windows
 
 - Instalá las dependencias Asegurate de tener pip actualizado y ejecutá:
-- 
+  
 pip install -r requirements.txt
 
 - Ejecutá el servidor Flask Desde la raíz del proyecto, ejecutá:
-- 
+  
 flask --app app run
 
 - Esto iniciará el servidor local en http://127.0.0.1:5000
-- 
+  
 - Explorá el sistema experto
-- 
+  
 - Completá el formulario de autoevaluación
-- 
+  
 - Visualizá los resultados interpretados y el promedio
 
 
