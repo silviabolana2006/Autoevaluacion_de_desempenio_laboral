@@ -95,34 +95,6 @@ flask --app app run
 - Visualizá los resultados interpretados y el promedio
 
 
-Autoevaluacion_desempeño_laboral/
-├── app.py
-├── main.py
-├── requirements.txt
-├── README.md
-├── experto_general/
-│   ├── __init__.py
-│   ├── base.py
-│   ├── engine.py
-│   ├── templates/
-│   │   ├── formulario.html
-│   │   └── resultado.html
-│   └── static/
-│       └── estilo.css
-├── Data/
-│   └── evaluaciones_guardadas.json
-├── Video/
-│   └── demo_sistema_experto.mp4
-└── docs/
-    ├── manual_usuario.md
-    ├── manual_tecnico.md
-    └── arbol_decision.png
-
-
-                                  
-
-
-
 
 ## Estructura del Proyecto
 Autoevaluacion_desempeño_laboral/
