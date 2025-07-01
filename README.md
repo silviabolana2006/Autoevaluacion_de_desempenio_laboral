@@ -52,7 +52,7 @@ Repositorio github
 
 Lenguaje python, Html
 
-Flask framework
+Flask microframework
 
 Enlace video
 
