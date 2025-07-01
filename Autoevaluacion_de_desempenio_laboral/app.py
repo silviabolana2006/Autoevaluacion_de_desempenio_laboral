@@ -1,5 +1,3 @@
-
-
 from flask import Flask, render_template, request, redirect, url_for
 from flask_cors import CORS
 
@@ -36,7 +34,7 @@ def evaluar():
 
         respuestas_para_inferencia = {}
 
-        # Itera sobre las reglas definidas en la base de conocimiento (dentro de "reglas")
+        # Iterar sobre las reglas definidas en la base de conocimiento (dentro de "reglas")
         for clave_pregunta, regla in base_conocimiento.get("reglas", {}).items():
             pregunta_tipo = regla.get("tipo")
 
