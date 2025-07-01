@@ -58,11 +58,12 @@ Enlace video
 
 # Instrucciones para ejecutar el sistema
 
-## Requisitos
+## Requisitos previos
 
-- Python 3.7 o superior
-- pip (gestor de paquetes de Python)
-- Navegador web
+- Python 3.7 o superior instalado en el sistema  
+- pip (incluido en Python) para instalar dependencias  
+- Navegador web (como Google Chrome, Firefox, Edge, etc.)  
+
 
 ## Instalación
 
