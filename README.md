@@ -48,93 +48,58 @@ El sistema experto organiza la información y toma decisiones utilizando un árb
 ## Herramientas utilizadas
 Librerías pathlib, json, graphviz
 
-Repositorio github, git
+Repositorio github
 
-Lenguaje python
+Lenguaje python, Html
 
 Flask framework
 
-Enlace video: https://drive.google.com/file/d/1cLHIRIvLz37prIXDfZAf-3s50PP8UHm-/view?usp=sharing
+Enlace video
 
-## Pasos para ejecutar el Sistema Experto
+# Instrucciones para ejecutar el sistema
 
-Cómo ejecutar el sistema experto
+## Requisitos
 
-- Cloná o descargá el proyecto
-  
-- Si estás en GitHub:
-  
+- Python 3.7 o superior
+- pip (gestor de paquetes de Python)
+- Navegador web
+
+## Instalación
+
+1. Clonar este repositorio:
+
+```bash
 git clone https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_laboral.git
+cd Autoevaluacion_de_desempenio_laboral
+```
 
-- O descargá el archivo .zip y descomprimilo.
-  
-- Abrí una terminal en la carpeta del proyecto Navegá hasta el directorio principal, por ejemplo:
-  
-cd "C:\Ruta\al\proyecto\Autoevaluacion_de_desempenio_laboral"
+2. Instalar dependencias:
 
-- (Opcional) Activá un entorno virtual Para mantener tus dependencias organizadas:
-  
-python -m venv venv
-
-venv\Scripts\activate   En Windows
-
-- Instalá las dependencias Asegurate de tener pip actualizado y ejecutá:
-  
+```bash
 pip install -r requirements.txt
+```
 
-- Ejecutá el servidor Flask Desde la raíz del proyecto, ejecutá:
-  
-flask --app app run
+## Ejecución
 
-- Esto iniciará el servidor local en http://127.0.0.1:5000
-  
-- Explorá el sistema experto
-  
-- Completá el formulario de autoevaluación
-  
-- Visualizá los resultados interpretados y el promedio
+1. Desde la terminal, ejecutar el archivo principal:
 
+```bash
+python app.py
+```
 
+2. Abrir el navegador en la siguiente dirección:
 
-## Estructura del Proyecto
-Autoevaluacion_desempeño_laboral/
+```
+http://127.0.0.1:5000/
+```
 
-├── app.py
+Desde allí se podrá acceder al formulario de autoevaluación y visualizar los resultados generados por el sistema experto.
 
-├── main.py
+## Estructura del proyecto (resumen)
 
-├── requirements.txt
+- `app.py`: archivo principal que levanta el servidor Flask.
+- `experto_general/`: contiene la lógica del motor de inferencia y reglas.
+- `templates/`: archivos HTML (formulario y resultado).
+- `static/`: archivos estáticos (estilos CSS).
+- `requirements.txt`: dependencias del proyecto.
 
-├── README.md
-
-├── experto_general/
-
-│   ├── base.py
-
-│   ├── engine.py
-
-│   └── __init__.py
-
-├── templates/
-
-│   ├── formulario.html
-
-│   └── resultado.html
-
-├── static/
-
-│   └── estilo.css
-
-├── Data/
-
-│   └── evaluaciones_guardadas.json
-
-├── Video/
-
-│   └── demo_sistema_experto.mp4
-
-└── docs/
-  
-    ├── manual_tecnico.md
-    └── arbol_decision.png
-    Autoevaluacion_desempeño_laboral/
