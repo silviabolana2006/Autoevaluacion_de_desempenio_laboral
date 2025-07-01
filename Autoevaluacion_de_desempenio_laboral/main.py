@@ -1,44 +1,58 @@
-from experto_general.base import base_conocimiento
-from experto_general.engine import inferir_resultado
 
-def obtener_respuestas():
+from base_conocimiento import base_conocimiento
+from engine import procesar_rangos, inferir_resultado 
+
+def obtener_respuestas_usuario(base_conocimiento):
     respuestas = {}
-    for clave, datos in base_conocimiento.items():
-        pregunta = datos.get("pregunta")
-        tipo = datos.get("tipo", "opciones")
-
-        print(f"\n📌 {pregunta}")
-
-        if tipo == "porcentaje" or tipo == "rango":
-            while True:
+    print("Por favor, responda las siguientes preguntas:")
+    for clave, regla in base_conocimiento.items():
+        pregunta = regla["pregunta"]
+        while True:
+            respuesta_str = input(f"{pregunta} ")
+            if regla.get("tipo") == "porcentaje" or regla.get("tipo") == "rango":
                 try:
-                    valor = int(input("Ingrese un valor del 0 al 100: "))
+                    valor = int(respuesta_str)
                     if 0 <= valor <= 100:
                         respuestas[clave] = valor
                         break
                     else:
-                        print("⚠️ Debe ser un número entre 0 y 100.")
+                        print("Por favor, ingrese un número entre 0 y 100.")
                 except ValueError:
-                    print("⚠️ Ingrese un número válido.")
-        else:
-            print("Opciones disponibles:")
-            for opcion in datos["respuestas"].keys():
-                print(f" - {opcion}")
-            valor = input("Seleccione una opción: ").lower()
-            respuestas[clave] = valor
+                    print("Entrada inválida. Por favor, ingrese un número.")
+            else:
+                opciones_validas = [k.lower() for k in regla["respuestas"].keys()]
+                if respuesta_str.lower() in opciones_validas:
+                    respuestas[clave] = respuesta_str
+                    break
+                else:
+                    print(f"Respuesta inválida. Las opciones son: {', '.join(opciones_validas)}")
     return respuestas
 
-def mostrar_resultado(score):
-    print("\n🧾 Resultado de la autoevaluación:")
-    if score >= 90:
-        print(f"✅ Excelente desempeño ({score}%)")
-    elif score >= 70:
-        print(f"🟡 Desempeño aceptable ({score}%)")
+def interpretar_resultado(puntaje_final):
+    if puntaje_final >= 90:
+        return "Rendimiento Excelente"
+    elif puntaje_final >= 75:
+        return "Buen Rendimiento"
+    elif puntaje_final >= 50:
+        return "Rendimiento Aceptable"
     else:
-        print(f"🔴 Necesita mejorar ({score}%)")
+        return "Necesita Mejorar"
+
+def main():
+    print("--- Sistema de Evaluación de Rendimiento ---")
+
+    respuestas_usuario = obtener_respuestas_usuario(base_conocimiento)
+
+    puntaje_final, puntajes_individuales, explicacion = inferir_resultado(respuestas_usuario, base_conocimiento)
+
+    print("\n--- Resultados de la Evaluación ---")
+    print(f"Puntajes individuales: {puntajes_individuales}")
+    print(f"Puntaje Final Promedio: {puntaje_final}")
+    print(f"Interpretación del Resultado: {interpretar_resultado(puntaje_final)}")
+
+    print("\n--- Explicación del Proceso ---")
+    for linea in explicacion:
+        print(f"- {linea}")
 
 if __name__ == "__main__":
-    print("=== SISTEMA EXPERTO: AUTOEVALUACIÓN DE DESEMPEÑO LABORAL ===")
-    respuestas_usuario = obtener_respuestas()
-    resultado = inferir_resultado(respuestas_usuario, base_conocimiento)
-    mostrar_resultado(resultado)
+    main()
