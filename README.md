@@ -96,6 +96,9 @@ python app.py
 http://127.0.0.1:5000/
 ```
 
+http://127.0.0.1:5000/
+y ahí vas a ver el formulario funcionando.
+
 Desde allí se podrá acceder al formulario de autoevaluación y visualizar los resultados generados por el sistema experto.
 
 ## Estructura del proyecto (resumen)
