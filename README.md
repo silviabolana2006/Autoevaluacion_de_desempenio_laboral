@@ -76,9 +76,6 @@ cd Autoevaluacion_de_desempenio_laboral
 2. Instalar dependencias:
 
 ```bash
-pip install -r requirements.txt
-```
-```bash
 pip install flask
 ```
 
