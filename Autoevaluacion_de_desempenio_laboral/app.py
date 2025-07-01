@@ -1,3 +1,5 @@
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 from flask import Flask, render_template, request
 from experto_general.base import base_conocimiento
 from experto_general.engine import inferir_resultado
