@@ -78,6 +78,9 @@ cd Autoevaluacion_de_desempenio_laboral
 ```bash
 pip install -r requirements.txt
 ```
+```bash
+pip install flask
+```
 
 ## Ejecución
 
