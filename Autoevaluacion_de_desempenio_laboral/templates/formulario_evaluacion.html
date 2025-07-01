@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Autoevaluación</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .question-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Autoevaluación de Desempeño Laboral</h1>
+        <form id="evaluacionForm" action="/evaluar" method="POST">
+            <div class="question-group">
+                <label for="id_empleado">ID Empleado:</label>
+                <input type="text" id="id_empleado" name="id_empleado" required>
+            </div>
+            <div class="question-group">
+                <label for="nombre_empleado">Nombre Empleado:</label>
+                <input type="text" id="nombre_empleado" name="nombre_empleado" required>
+            </div>
+
+            <div class="question-group">
+                <label for="asistencia">1. Asistencia:</label>
+                <select id="asistencia" name="asistencia" required>
+                    <option value="sin_faltas">Sin faltas</option>
+                    <option value="faltas.justificada">Faltas justificadas</option>
+                    <option value="faltas.no_justificada">Faltas no justificadas</option>
+                    <option value="llegadas_tarde">Llegadas tarde</option>
+                </select>
+            </div>
+
+            <div class="question-group">
+                <label for="objetivos_estado">2. Cumplimiento de objetivos:</label>
+                <select id="objetivos_estado" name="objetivos_estado" onchange="toggleRazon()" required>
+                    <option value="cumplido">Cumplido</option>
+                    <option value="no_cumplido">No cumplido</option>
+                </select>
+                <div id="razon_div" style="display: none; margin-top: 10px;">
+                    <label for="objetivos_razon">Razón (si no cumplido):</label>
+                    <select id="objetivos_razon" name="objetivos_razon">
+                        <option value="">Seleccione</option>
+                        <option value="grupal">Razón grupal</option>
+                        <option value="personal">Razón personal</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <label for="desempeno">3. Desempeño y responsabilidad (% de cumplimiento):</label>
+                <input type="number" id="desempeno" name="desempeno" min="0" max="100" placeholder="Ej: 90" required>
+            </div>
+
+            <div class="question-group">
+                <label for="tiempo">4. Gestión del tiempo (%):</label>
+                <input type="number" id="tiempo" name="tiempo" min="0" max="100" placeholder="Ej: 85" required>
+            </div>
+
+            <div class="question-group">
+                <label for="equipo">5. Trabajo en equipo y colaboración (%):</label>
+                <input type="number" id="equipo" name="equipo" min="0" max="100" placeholder="Ej: 70" required>
+            </div>
+
+            <button type="submit">Calcular Puntaje</button>
+        </form>
+    </div>
+
+    <script>
+        function toggleRazon() {
+            const estadoSelect = document.getElementById('objetivos_estado');
+            const razonDiv = document.getElementById('razon_div');
+            const razonSelect = document.getElementById('objetivos_razon');
+
+            if (estadoSelect.value === 'no_cumplido') {
+                razonDiv.style.display = 'block';
+                razonSelect.setAttribute('required', 'required'); // Hacer el campo requerido
+            } else {
+                razonDiv.style.display = 'none';
+                razonSelect.removeAttribute('required'); // Quitar el requerido
+                razonSelect.value = ""; // Limpiar selección al ocultar
+            }
+        }
+
+        // Inicializar los estados correctos al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleRazon(); // Llama a la función para establecer el estado inicial
+        });
+    </script>
+</body>
+</html>
