@@ -102,6 +102,7 @@ Desde allí se podrá acceder al formulario de autoevaluación y visualizar los 
 ## Estructura del proyecto (resumen)
 
 - `app.py`: archivo principal que levanta el servidor Flask.
+-  `doc`: contiene la documentacion del sistema experto.
 - `experto_general/`: contiene la lógica del motor de inferencia y reglas.
 - `templates/`: archivos HTML (formulario y resultado).
 - `static/`: archivos estáticos (estilos CSS).
