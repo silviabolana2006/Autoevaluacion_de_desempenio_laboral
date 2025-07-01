@@ -1,86 +1,95 @@
 
-from flask import Flask, request, jsonify, render_template
+
+from flask import Flask, render_template, request, redirect, url_for
 from flask_cors import CORS
-import json
-from ingeneri import inferir_resultado, procesar_rangos # Importa las funciones de tu archivo ingeneri.py
+from base import base_conocimiento
+from engine import inferir_resultado, procesar_rangos
+from property import EvaluacionEmpleado
+from response import interpretar_puntaje_final, generar_resumen_evaluacion_html
 
 app = Flask(__name__)
 CORS(app) # Habilita CORS para permitir solicitudes desde el frontend (importante para desarrollo)
 
-# La base de conocimiento con las reglas de evaluación
-# Esta estructura es crucial y debe coincidir con lo que 'inferir_resultado' espera.
-base_conocimiento = {
-    "reglas": {
-        "pregunta_1": {
-            "pregunta": "Asistencia",
-            "tipo": "directa",
-            "respuestas": {
-                "sin_faltas": 100,
-                "faltas.justificada": 100,
-                "faltas.no_justificada": 0,
-                "llegadas_tarde": 0
-            }
-        },
-        "pregunta_2": {
-            "pregunta": "Cumplimiento de objetivos",
-            "tipo": "directa", # Maneja la anidación internamente en inferir_resultado
-            "respuestas": {
-                "cumplido": 100,
-                "no_cumplido": { # Aquí se definen las sub-opciones para "no_cumplido"
-                    "grupal": 50,
-                    "personal": 0
-                }
-            }
-        },
-        "pregunta_3": {
-            "pregunta": "Desempeño y responsabilidad",
-            "tipo": "porcentaje", # Indica que el valor de entrada es directamente el porcentaje
-            "respuestas": {} # No hay respuestas predefinidas aquí, se usa el valor ingresado
-        },
-        "pregunta_4": {
-            "pregunta": "Concordancia entre habilidades y perfil del puesto",
-            "tipo": "rango", # Indica que se usará la función procesar_rangos
-            "respuestas": {} # Las reglas de rango se gestionan en procesar_rangos
-        },
-        "pregunta_5": {
-            "pregunta": "Trabajo en equipo y colaboración",
-            "tipo": "rango", # Indica que se usará la función procesar_rangos
-            "respuestas": {} # Las reglas de rango se gestionan en procesar_rangos
-        }
-    }
-}
-
-
-@app.route('/evaluacion', methods=['POST'])
-def evaluar():
-    """
-    Endpoint de la API para recibir los datos de la autoevaluación,
-    inferir el resultado usando la base de conocimiento y devolverlo como JSON.
-    """
-    datos = request.json # Obtiene los datos JSON enviados desde el frontend
-    if not datos:
-        return jsonify({"error": "No se recibieron datos de evaluación. Por favor, envía un JSON con tus respuestas."}), 400
-        
-    # Llama a la función inferir_resultado de ingeneri.py para obtener el puntaje y la explicación
-    puntaje_total, puntajes_detallados, explicacion = inferir_resultado(datos, base_conocimiento)
-
-    # Devuelve la respuesta como JSON
-    return jsonify({
-        "puntaje_total": round(puntaje_total, 2), # Redondea el puntaje total a dos decimales
-        "puntajes_detallados": puntajes_detallados, # Información detallada por pregunta
-        "explicacion": explicacion # Lista de cadenas que explican el cálculo
-    })
-
 @app.route('/')
 def index():
     """
-    Ruta para servir el archivo HTML principal del formulario de autoevaluación.
-    Flask buscará 'index.html' dentro de la carpeta 'templates'.
+    Ruta para la página inicial que muestra el formulario de evaluación.
     """
-    return render_template('index.html')
+    # Pasamos las reglas de la base de conocimiento a la plantilla para que pueda usarlas, si es necesario.
+    # Usaremos base_conocimiento.get("reglas", {}) para acceder a la parte relevante.
+    return render_template('formulario_evaluacion.html', preguntas_reglas=base_conocimiento.get("reglas", {}))
+
+@app.route('/evaluar', methods=['POST'])
+def evaluar():
+    """
+    Ruta que procesa las respuestas del formulario, ejecuta el motor de inferencia
+    y muestra los resultados.
+    """
+    if request.method == 'POST':
+        respuestas_form = request.form # Obtiene los datos enviados por el formulario (ImmutableMultiDict)
+
+        # Crea una nueva instancia del objeto de evaluación
+        evaluacion = EvaluacionEmpleado(
+            id_empleado=respuestas_form.get('id_empleado'),
+            nombre_empleado=respuestas_form.get('nombre_empleado')
+        )
+
+        # Prepara las respuestas para el motor de inferencia, manejando tipos complejos
+        respuestas_para_inferencia = {}
+
+        # Iterar sobre las reglas definidas en la base de conocimiento para saber qué esperar
+        for clave_pregunta, regla in base_conocimiento.get("reglas", {}).items():
+            pregunta_tipo = regla.get("tipo")
+
+            if pregunta_tipo == "directa":
+                if clave_pregunta == "objetivos":
+                    # Manejo específico para la pregunta de objetivos que tiene estado y razón
+                    estado = respuestas_form.get('objetivos_estado')
+                    if estado == 'no_cumplido':
+                        razon = respuestas_form.get('objetivos_razon')
+                        # Guarda el valor como un diccionario, como espera inferir_resultado
+                        respuestas_para_inferencia[clave_pregunta] = {"estado": estado, "razon": razon}
+                    else:
+                        # Si es "cumplido", solo necesitamos el estado
+                        respuestas_para_inferencia[clave_pregunta] = {"estado": estado}
+                else:
+                    # Para otras preguntas directas simples como 'asistencia'
+                    respuesta_recibida = respuestas_form.get(clave_pregunta)
+                    if respuesta_recibida is not None:
+                        respuestas_para_inferencia[clave_pregunta] = respuesta_recibida
+            elif pregunta_tipo == "porcentaje" or pregunta_tipo == "rango":
+                # Para preguntas que esperan un valor numérico
+                respuesta_recibida = respuestas_form.get(clave_pregunta)
+                if respuesta_recibida is not None:
+                    try:
+                        respuestas_para_inferencia[clave_pregunta] = int(respuesta_recibida)
+                    except ValueError:
+                        # En caso de que el usuario no ingrese un número válido
+                        respuestas_para_inferencia[clave_pregunta] = 0
+
+            # Añade las respuestas procesadas al objeto de evaluación
+            if clave_pregunta in respuestas_para_inferencia:
+                evaluacion.agregar_respuesta(clave_pregunta, respuestas_para_inferencia[clave_pregunta])
+
+        # Ejecuta el motor de inferencia con las respuestas y la base de conocimiento
+        # inferir_resultado ya espera la base completa (con la clave "reglas")
+        puntaje_final, puntajes_detallados, explicacion = inferir_resultado(
+            respuestas_para_inferencia, base_conocimiento
+        )
+
+        # Actualiza el objeto de evaluación con los resultados obtenidos
+        evaluacion.set_resultados_inferencia(puntaje_final, puntajes_detallados, explicacion)
+        evaluacion.set_interpretacion(interpretar_puntaje_final(puntaje_final))
+
+        # Genera el HTML de resumen usando la función de response.py
+        resumen_html = generar_resumen_evaluacion_html(evaluacion)
+
+        # Renderiza la plantilla de resultados, pasando el HTML generado y los datos de la evaluación
+        return render_template('resultados_evaluacion.html', resumen_html=resumen_html, evaluacion_data=evaluacion.to_dict())
+    
+    # Si la solicitud no es POST, redirigir al formulario
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    # Este bloque asegura que la aplicación Flask se ejecute cuando el archivo app.py es iniciado
-    # 'debug=True' habilita el modo de depuración, que recarga el servidor automáticamente
-    # con los cambios y muestra errores detallados. Usar solo para desarrollo.
+    # Ejecuta la aplicación Flask en modo depuración (útil durante el desarrollo)
     app.run(debug=True)
