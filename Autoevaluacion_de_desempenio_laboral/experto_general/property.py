@@ -44,7 +44,7 @@ class EvaluacionEmpleado:
             "id_empleado": self.id_empleado,
             "nombre_empleado": self.nombre_empleado,
             "respuestas": self.respuestas,
-            "puntajes_individuales": self.puntajes_individuales, # Se usa el nuevo formato
+            "puntajes_individuales": self.puntajes_individuales, 
             "puntaje_final": self.puntaje_final,
             "interpretacion": self.interpretacion,
             "explicacion_proceso": self.explicacion_proceso
