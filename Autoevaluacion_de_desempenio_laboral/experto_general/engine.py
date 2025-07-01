@@ -1,95 +1,84 @@
 
 
-from flask import Flask, render_template, request, redirect, url_for
-from flask_cors import CORS
-from base import base_conocimiento
-from engine import inferir_resultado, procesar_rangos
-from property import EvaluacionEmpleado
-from response import interpretar_puntaje_final, generar_resumen_evaluacion_html
+def procesar_rangos(valor):
+    """Procesa un valor porcentual para determinar un puntaje de rango."""
+    try:
+        valor = int(valor)
+    except ValueError:
+        return 0 # Valor por defecto si no es un número válido
 
-app = Flask(__name__)
-CORS(app) # Habilita CORS para permitir solicitudes desde el frontend (importante para desarrollo)
+    if valor >= 80:
+        return 100
+    elif 50 <= valor <= 79: # Corregido para incluir 79
+        return 70
+    else:
+        return 0
 
-@app.route('/')
-def index():
+def inferir_resultado(respuestas, base_conocimiento):
     """
-    Ruta para la página inicial que muestra el formulario de evaluación.
+    Infiere el resultado de la evaluación basándose en las respuestas del usuario
+    y la base de conocimiento.
+    Devuelve el puntaje final, una lista de puntajes detallados y una explicación.
     """
-    # Pasamos las reglas de la base de conocimiento a la plantilla para que pueda usarlas, si es necesario.
-    # Usaremos base_conocimiento.get("reglas", {}) para acceder a la parte relevante.
-    return render_template('formulario_evaluacion.html', preguntas_reglas=base_conocimiento.get("reglas", {}))
+    puntajes_detallados = []
+    explicacion_proceso = []
+    puntaje_final_ponderado = 0
 
-@app.route('/evaluar', methods=['POST'])
-def evaluar():
-    """
-    Ruta que procesa las respuestas del formulario, ejecuta el motor de inferencia
-    y muestra los resultados.
-    """
-    if request.method == 'POST':
-        respuestas_form = request.form # Obtiene los datos enviados por el formulario (ImmutableMultiDict)
+    reglas = base_conocimiento.get("reglas", {}) # Accede a las reglas
 
-        # Crea una nueva instancia del objeto de evaluación
-        evaluacion = EvaluacionEmpleado(
-            id_empleado=respuestas_form.get('id_empleado'),
-            nombre_empleado=respuestas_form.get('nombre_empleado')
-        )
+    for clave, respuesta_usuario in respuestas.items():
+        regla = reglas.get(clave)
 
-        # Prepara las respuestas para el motor de inferencia, manejando tipos complejos
-        respuestas_para_inferencia = {}
+        if not regla:
+            explicacion_proceso.append(f"Advertencia: No se encontró una regla para '{clave}'.")
+            continue
 
-        # Iterar sobre las reglas definidas en la base de conocimiento para saber qué esperar
-        for clave_pregunta, regla in base_conocimiento.get("reglas", {}).items():
-            pregunta_tipo = regla.get("tipo")
+        puntaje_criterio = 0
+        explicacion_criterio = f"'{regla['pregunta']}' ({clave}): "
 
-            if pregunta_tipo == "directa":
-                if clave_pregunta == "objetivos":
-                    # Manejo específico para la pregunta de objetivos que tiene estado y razón
-                    estado = respuestas_form.get('objetivos_estado')
-                    if estado == 'no_cumplido':
-                        razon = respuestas_form.get('objetivos_razon')
-                        # Guarda el valor como un diccionario, como espera inferir_resultado
-                        respuestas_para_inferencia[clave_pregunta] = {"estado": estado, "razon": razon}
-                    else:
-                        # Si es "cumplido", solo necesitamos el estado
-                        respuestas_para_inferencia[clave_pregunta] = {"estado": estado}
+        if regla.get("tipo") == "directa":
+            if clave == "objetivos":
+                estado_objetivos = respuesta_usuario.get("estado")
+                if estado_objetivos == "cumplido":
+                    puntaje_criterio = regla["respuestas"]["cumplido"]["estado"]
+                    explicacion_criterio += f"Objetivos cumplidos. Puntaje: {puntaje_criterio}."
+                elif estado_objetivos == "no_cumplido":
+                    razon = respuesta_usuario.get("razon")
+                    puntaje_criterio = regla["respuestas"]["no_cumplido"]["razones"].get(razon, 0)
+                    explicacion_criterio += f"Objetivos no cumplidos por razón '{razon}'. Puntaje: {puntaje_criterio}."
                 else:
-                    # Para otras preguntas directas simples como 'asistencia'
-                    respuesta_recibida = respuestas_form.get(clave_pregunta)
-                    if respuesta_recibida is not None:
-                        respuestas_para_inferencia[clave_pregunta] = respuesta_recibida
-            elif pregunta_tipo == "porcentaje" or pregunta_tipo == "rango":
-                # Para preguntas que esperan un valor numérico
-                respuesta_recibida = respuestas_form.get(clave_pregunta)
-                if respuesta_recibida is not None:
-                    try:
-                        respuestas_para_inferencia[clave_pregunta] = int(respuesta_recibida)
-                    except ValueError:
-                        # En caso de que el usuario no ingrese un número válido
-                        respuestas_para_inferencia[clave_pregunta] = 0
+                    explicacion_criterio += "Estado de objetivos no reconocido. Puntaje: 0."
+            else: # Asistencia u otras directas simples
+                puntaje_criterio = regla["respuestas"].get(respuesta_usuario, 0)
+                explicacion_criterio += f"Respuesta '{respuesta_usuario}'. Puntaje: {puntaje_criterio}."
 
-            # Añade las respuestas procesadas al objeto de evaluación
-            if clave_pregunta in respuestas_para_inferencia:
-                evaluacion.agregar_respuesta(clave_pregunta, respuestas_para_inferencia[clave_pregunta])
+        elif regla.get("tipo") == "porcentaje":
+            valor_porcentaje = int(respuesta_usuario) # Ya se valida a int en app.py
+            for rango_nombre, detalles_rango in regla["rangos"].items():
+                if detalles_rango["min"] <= valor_porcentaje <= detalles_rango["max"]:
+                    puntaje_criterio = detalles_rango["puntaje"]
+                    explicacion_criterio += f"{valor_porcentaje}% cae en el rango '{rango_nombre}'. Puntaje: {puntaje_criterio}."
+                    break
+            else:
+                explicacion_criterio += f"{valor_porcentaje}% no cae en ningún rango definido. Puntaje: 0."
 
-        # Ejecuta el motor de inferencia con las respuestas y la base de conocimiento
-        # inferir_resultado ya espera la base completa (con la clave "reglas")
-        puntaje_final, puntajes_detallados, explicacion = inferir_resultado(
-            respuestas_para_inferencia, base_conocimiento
-        )
+        elif regla.get("tipo") == "rango":
+            puntaje_criterio = procesar_rangos(respuesta_usuario)
+            explicacion_criterio += f"Valor {respuesta_usuario}% procesado por rango. Puntaje: {puntaje_criterio}."
+        
+        else:
+            explicacion_criterio += f"Tipo de regla desconocido para '{clave}'. Puntaje: 0."
 
-        # Actualiza el objeto de evaluación con los resultados obtenidos
-        evaluacion.set_resultados_inferencia(puntaje_final, puntajes_detallados, explicacion)
-        evaluacion.set_interpretacion(interpretar_puntaje_final(puntaje_final))
+        peso_criterio = regla.get("peso", 0)
+        puntaje_ponderado_criterio = puntaje_criterio * peso_criterio
+        puntaje_final_ponderado += puntaje_ponderado_criterio
 
-        # Genera el HTML de resumen usando la función de response.py
-        resumen_html = generar_resumen_evaluacion_html(evaluacion)
+        puntajes_detallados.append({
+            "clave": clave,
+            "pregunta": regla["pregunta"],
+            "puntaje": puntaje_criterio,
+            "peso": peso_criterio
+        })
+        explicacion_proceso.append(explicacion_criterio)
 
-        # Renderiza la plantilla de resultados, pasando el HTML generado y los datos de la evaluación
-        return render_template('resultados_evaluacion.html', resumen_html=resumen_html, evaluacion_data=evaluacion.to_dict())
-    
-    # Si la solicitud no es POST, redirigir al formulario
-    return redirect(url_for('index'))
-
-if __name__ == '__main__':
-    # Ejecuta la aplicación Flask en modo depuración (útil durante el desarrollo)
-    app.run(debug=True)
+    return round(puntaje_final_ponderado, 2), puntajes_detallados, explicacion_proceso
