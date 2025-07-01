@@ -20,11 +20,11 @@ base_conocimiento = {
         "pregunta": "¿Qué porcentaje cumple con su puesto?",
         "tipo": "porcentaje"
     },
-    "tiempo": {
+    "gestion de tiempo": {
         "pregunta": "¿Qué porcentaje representa su gestión del tiempo?",
         "tipo": "rango"
     },
-    "equipo": {
+    "trabajo en equipo": {
         "pregunta": "¿Qué porcentaje representa su colaboración en equipo?",
         "tipo": "rango"
     }
