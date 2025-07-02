@@ -58,46 +58,81 @@ Enlace video
 
 # Instrucciones para ejecutar el sistema
 
-## Requisitos previos
+# Proyecto de Autoevaluación – Instrucciones de Ejecución
 
-- Python 3.7 o superior instalado en el sistema  
-- pip (incluido en Python) para instalar dependencias  
-- Navegador web (como Google Chrome, Firefox, Edge, etc.)  
+Este proyecto utiliza **Flask** para levantar una aplicación web de autoevaluación. A continuación, encontrarás los pasos necesarios para su correcta ejecución.
 
+---
 
-## Instalación
+##  Prerrequisitos
 
-1. Clonar este repositorio:
+Antes de comenzar, asegúrate de tener instalado lo siguiente:
+
+-  Python 3.8 o superior
+-  PIP (Gestor de paquetes de Python)
+-  Navegador web moderno (Chrome, Firefox, Edge, etc.)
+
+---
+
+##  Configuración Inicial
+
+Abre una terminal y ejecuta los siguientes comandos:
 
 ```bash
-git clone https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_laboral.git
-cd Autoevaluacion_de_desempenio_laboral
-```
+# 1. Crear entorno virtual
+python -m venv venv
 
-2. Instalar dependencias:
+# 2. Activar entorno virtual
 
-```bash
+# En Windows:
+venv\Scripts\activate
+
+# En Linux/MacOS:
+source venv/bin/activate
+
+# 3. Instalar Flask
 pip install flask
 ```
 
-## Ejecución
+---
 
-1. Desde la terminal, ejecutar el archivo principal:
+### Solución de Problemas Comunes
+
+Si al ejecutar el proyecto aparece este error:
+
+```
+ModuleNotFoundError: No module named 'flask_cors'
+```
+
+Ejecuta:
 
 ```bash
+# 4. Instalar dependencia faltante
+pip install flask-cors
+```
+
+---
+
+##  Ejecución del Proyecto
+
+Con el entorno virtual activado y las dependencias instaladas, ejecuta:
+
+```bash
+# 5. Iniciar la aplicación
 python app.py
 ```
 
-2. Abrir el navegador en la siguiente dirección:
+---
 
-```
-http://127.0.0.1:5000/
-```
+##  Acceso a la Aplicación
 
-http://127.0.0.1:5000/
-y ahí vas a ver el formulario funcionando.
+Una vez que la aplicación esté corriendo, abre tu navegador y accede a:
 
-Desde allí se podrá acceder al formulario de autoevaluación y visualizar los resultados generados por el sistema experto.
+[http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+
+---
+
+
 
 ## Estructura del proyecto (resumen)
 
