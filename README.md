@@ -74,63 +74,38 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
 ---
 
-##  Configuración Inicial
+ 1. Clonar el repositorio
+git clone https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_laboral.git
+cd Autoevaluacion_de_desempenio_laboral
 
-Abre una terminal y ejecuta los siguientes comandos:
 
-```bash
-# 1. Crear entorno virtual
+🛠️ 2. Crear y activar entorno virtual
+# Crear entorno virtual
 python -m venv venv
 
-# 2. Activar entorno virtual
-
+# Activar entorno virtual
 # En Windows:
 venv\Scripts\activate
 
 # En Linux/MacOS:
 source venv/bin/activate
 
-# 3. Instalar Flask
-pip install flask
-```
+ 3. Instalar dependencias
+pip install flask flask-cors
 
----
+ Si ves el error ModuleNotFoundError: No module named 'flask_cors', asegúrate de instalar flask-cors manualmente:
 
-### Solución de Problemas Comunes
-
-Si al ejecutar el proyecto aparece este error:
-
-```
-ModuleNotFoundError: No module named 'flask_cors'
-```
-
-Ejecuta:
-
-```bash
-# 4. Instalar dependencia faltante
 pip install flask-cors
-```
 
----
 
-##  Ejecución del Proyecto
-
-Con el entorno virtual activado y las dependencias instaladas, ejecuta:
-
-```bash
-# 5. Iniciar la aplicación
+4. Ejecutar el sistema
 python app.py
-```
 
----
 
-##  Acceso a la Aplicación
+El sistema estará disponible en http://localhost:5000 si no has modificado la configuración por defecto de Flask.
 
-Una vez que la aplicación esté corriendo, abre tu navegador y accede a:
 
-[http://127.0.0.1:5000/](http://127.0.0.1:5000/)
 
----
 
 
 
