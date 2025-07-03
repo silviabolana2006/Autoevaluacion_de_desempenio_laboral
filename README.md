@@ -70,15 +70,12 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 -  PIP (Gestor de paquetes de Python)
 -  Navegador web moderno (Chrome, Firefox, Edge, etc.)
 
-¡Perfecto, Silvia! Aquí tienes la versión sin íconos, lista para que la pegues en tu `README.md` con un estilo profesional y claro:
-
----
 
 ## Sistema Experto: Autoevaluación de Desempeño Laboral
 
 Este sistema permite realizar una autoevaluación del desempeño laboral mediante reglas definidas en un entorno web sencillo y accesible.
 
-### Requisitos previos
+## Requisitos previos
 
 Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
@@ -86,7 +83,7 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 - PIP (Gestor de paquetes de Python)  
 - Navegador web moderno (Chrome, Firefox, Edge, etc.)
 
-### Clonar el repositorio
+## Clonar el repositorio
 
 https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_laboral
 cd  Autoevaluacion_de_desempenio_laboral
@@ -110,7 +107,6 @@ source venv/bin/activate
 
 # 3. Instalar Flask
 pip install flask
-```
 
 
 
@@ -118,9 +114,9 @@ pip install flask
 
 Si al ejecutar el proyecto aparece este error:
 
-```
+
 ModuleNotFoundError: No module named 'flask_cors'
-```
+
 
 Ejecuta:
 
