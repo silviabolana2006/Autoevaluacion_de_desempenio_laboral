@@ -54,7 +54,7 @@ Lenguaje python, Html
 
 Flask microframework
 
-Enlace video
+Enlace video https://www.youtube.com/watch?v=EmN-NL9oaQs
 
 ## Instrucciones para ejecutar el sistema
 
