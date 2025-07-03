@@ -64,7 +64,7 @@ Este proyecto utiliza **Flask** para levantar una aplicación web de autoevaluac
 
 ---
 
-##  Prerrequisitos
+# requisitos previo
 
 Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
@@ -79,15 +79,15 @@ git clone https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_labor
 cd Autoevaluacion_de_desempenio_laboral
 
 
-🛠️ 2. Crear y activar entorno virtual
-# Crear entorno virtual
+ 2. Crear y activar entorno virtual
+ Crear entorno virtual
 python -m venv venv
 
-# Activar entorno virtual
-# En Windows:
+Activar entorno virtual
+ En Windows:
 venv\Scripts\activate
 
-# En Linux/MacOS:
+En Linux/MacOS:
 source venv/bin/activate
 
  3. Instalar dependencias
