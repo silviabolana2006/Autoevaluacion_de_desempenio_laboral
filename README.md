@@ -105,9 +105,10 @@ venv\Scripts\activate
 # En Linux/MacOS:
 source venv/bin/activate
 
+
 # 3. Instalar Flask
 pip install flask
-
+```
 
 
 ###  Solución de Problemas Comunes
@@ -135,6 +136,7 @@ Con el entorno virtual activado y las dependencias instaladas, ejecuta:
 # 5. Iniciar la aplicación
 python app.py
 ```
+
 
 
 
