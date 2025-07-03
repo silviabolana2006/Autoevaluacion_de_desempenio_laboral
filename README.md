@@ -93,18 +93,22 @@ cd Autoevaluacion_de_desempenio_laboral
 
 Abre una terminal y ejecuta los siguientes comandos:
 
-```bash
+```
+bash
 # 1. Crear entorno virtual
 python -m venv venv
 ```
-```# 2. Activar entorno virtual
+```
+# 2. Activar entorno virtual
 # En Windows:
 venv\Scripts\activate
 ```
-```# En Linux/MacOS:
+```
+# En Linux/MacOS:
 source venv/bin/activate
 ```
-```# 3. Instalar Flask
+```
+# 3. Instalar Flask
 pip install flask
 ```
 
@@ -117,7 +121,8 @@ ModuleNotFoundError: No module named 'flask_cors'
 
 Ejecuta:
 
-```bash
+```
+bash
 # 4. Instalar dependencia faltante
 pip install flask-cors
 ```
@@ -128,7 +133,8 @@ pip install flask-cors
 
 Con el entorno virtual activado y las dependencias instaladas, ejecuta:
 
-```bash
+```
+bash
 # 5. Iniciar la aplicación
 python app.py
 ```
