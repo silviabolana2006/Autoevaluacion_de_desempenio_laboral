@@ -84,10 +84,10 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 - Navegador web moderno (Chrome, Firefox, Edge, etc.)
 
 ## Clonar el repositorio
-
-https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_laboral
-cd  Autoevaluacion_de_desempenio_laboral
-
+```bash
+git clone https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_laboral.git
+cd Autoevaluacion_de_desempenio_laboral
+```
 
 ##  Configuración Inicial
 
@@ -100,8 +100,8 @@ python -m venv venv
 ```# 2. Activar entorno virtual
 # En Windows:
 venv\Scripts\activate
-
-# En Linux/MacOS:
+```
+```# En Linux/MacOS:
 source venv/bin/activate
 ```
 ```# 3. Instalar Flask
