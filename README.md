@@ -56,13 +56,13 @@ Flask microframework
 
 Enlace video
 
-# Instrucciones para ejecutar el sistema
+## Instrucciones para ejecutar el sistema
 
 
 Este proyecto utiliza **Flask** para levantar una aplicación web de autoevaluación. A continuación, encontrarás los pasos necesarios para su correcta ejecución.
 
 
-# requisitos previo
+## requisitos previo
 
 Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
@@ -70,36 +70,67 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 -  PIP (Gestor de paquetes de Python)
 -  Navegador web moderno (Chrome, Firefox, Edge, etc.)
 
+¡Perfecto, Silvia! Aquí tienes la versión sin íconos, lista para que la pegues en tu `README.md` con un estilo profesional y claro:
 
- 1. Clonar el repositorio
+---
+
+## Sistema Experto: Autoevaluación de Desempeño Laboral
+
+Este sistema permite realizar una autoevaluación del desempeño laboral mediante reglas definidas en un entorno web sencillo y accesible.
+
+### Requisitos previos
+
+Antes de comenzar, asegúrate de tener instalado lo siguiente:
+
+- Python 3.8 o superior  
+- PIP (Gestor de paquetes de Python)  
+- Navegador web moderno (Chrome, Firefox, Edge, etc.)
+
+### Clonar el repositorio
+
+```bash
 git clone https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_laboral.git
 cd Autoevaluacion_de_desempenio_laboral
+```
 
+### Crear y activar entorno virtual
 
- 2. Crear y activar entorno virtual
- Crear entorno virtual
+```bash
 python -m venv venv
+`
 
-Activar entorno virtual
- En Windows:
+Activar entorno virtual:
+
+```bash
+# En Windows
 venv\Scripts\activate
 
-En Linux/MacOS:
+# En Linux/MacOS
 source venv/bin/activate
 
- 3. Instalar dependencias
+
+### Instalar dependencias
+
+```bash
 pip install flask flask-cors
 
- Si ves el error ModuleNotFoundError: No module named 'flask_cors', asegúrate de instalar flask-cors manualmente:
 
+Si ves el error `ModuleNotFoundError: No module named 'flask_cors'`, instala `flask-cors` manualmente:
+
+```bash
 pip install flask-cors
 
 
-4. Ejecutar el sistema
+### Ejecutar el sistema
+
+```bash
 python app.py
+`
 
+Luego abre tu navegador y accede a:  
+`http://localhost:5000`
 
-El sistema estará disponible en http://localhost:5000 si no has modificado la configuración por defecto de Flask.
+--
 
 
 
