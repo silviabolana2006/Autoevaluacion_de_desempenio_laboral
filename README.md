@@ -96,17 +96,15 @@ Abre una terminal y ejecuta los siguientes comandos:
 ```bash
 # 1. Crear entorno virtual
 python -m venv venv
-
-# 2. Activar entorno virtual
-
+```
+```# 2. Activar entorno virtual
 # En Windows:
 venv\Scripts\activate
 
 # En Linux/MacOS:
 source venv/bin/activate
-
-
-# 3. Instalar Flask
+```
+```# 3. Instalar Flask
 pip install flask
 ```
 
@@ -114,8 +112,6 @@ pip install flask
 ###  Solución de Problemas Comunes
 
 Si al ejecutar el proyecto aparece este error:
-
-
 ModuleNotFoundError: No module named 'flask_cors'
 
 
