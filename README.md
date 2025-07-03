@@ -58,11 +58,9 @@ Enlace video
 
 # Instrucciones para ejecutar el sistema
 
-# Proyecto de Autoevaluación – Instrucciones de Ejecución
 
 Este proyecto utiliza **Flask** para levantar una aplicación web de autoevaluación. A continuación, encontrarás los pasos necesarios para su correcta ejecución.
 
----
 
 # requisitos previo
 
@@ -72,7 +70,6 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente:
 -  PIP (Gestor de paquetes de Python)
 -  Navegador web moderno (Chrome, Firefox, Edge, etc.)
 
----
 
  1. Clonar el repositorio
 git clone https://github.com/silviabolana2006/Autoevaluacion_de_desempenio_laboral.git
