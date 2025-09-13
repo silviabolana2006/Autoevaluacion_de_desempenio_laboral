@@ -3,142 +3,464 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Autoevaluación</title>
+    <title>Sistema Experto - Autoevaluación de Desempeño Laboral</title>
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #34495e;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
         }
+        
         .container {
-            background-color: #fff;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: auto;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        h1 {
-            color: #333;
+        
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
             text-align: center;
-            margin-bottom: 30px;
-        }
-        .question-group {
+            border-radius: 8px 8px 0 0;
             margin-bottom: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
         }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            color: var(--secondary-color);
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
+            font-weight: 600;
         }
+        
         input[type="text"],
         input[type="number"],
-        select {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
             border-radius: 4px;
-            box-sizing: border-box;
+            font-size: 16px;
+            transition: border 0.3s;
         }
-        button {
-            background-color: #007bff;
+        
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+        
+        .rating-container {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+        
+        .rating-item {
+            text-align: center;
+            flex: 1;
+            padding: 10px;
+        }
+        
+        .rating-scale {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        
+        .scale-label {
+            font-size: 0.85rem;
+            color: #777;
+        }
+        
+        .btn {
+            background-color: var(--secondary-color);
             color: white;
-            padding: 12px 20px;
             border: none;
+            padding: 12px 24px;
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
-            width: 100%;
-            transition: background-color 0.3s ease;
+            font-weight: 600;
+            transition: background-color 0.3s;
         }
-        button:hover {
-            background-color: #0056b3;
+        
+        .btn:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .result-container {
+            display: none;
+            margin-top: 30px;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin: 20px 0;
+        }
+        
+        .evaluation-result {
+            background-color: #e8f4fc;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .recommendations {
+            margin-top: 30px;
+        }
+        
+        .recommendations ul {
+            padding-left: 20px;
+        }
+        
+        .recommendations li {
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        .conditional-field {
+            display: none;
+            margin-top: 10px;
+            padding-left: 20px;
+            border-left: 3px solid var(--secondary-color);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            .rating-container {
+                flex-direction: column;
+            }
+            
+            .rating-item {
+                margin-bottom: 15px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Autoevaluación de Desempeño Laboral</h1>
-        <form id="evaluacionForm" action="/evaluar" method="POST">
-            <div class="question-group">
-                <label for="id_empleado">ID Empleado:</label>
-                <input type="text" id="id_empleado" name="id_empleado" required>
+        <header>
+            <h1>Sistema Experto de Autoevaluación Laboral</h1>
+            <p>Evalúa tu desempeño profesional y recibe retroalimentación personalizada</p>
+        </header>
+        
+        <form id="evaluation-form">
+            <div class="card">
+                <h2 class="section-title">Información Personal</h2>
+                <div class="form-group">
+                    <label for="id_empleado">ID de Empleado</label>
+                    <input type="text" id="id_empleado" name="id_empleado" required placeholder="Ingresa tu ID de empleado">
+                </div>
+                
+                <div class="form-group">
+                    <label for="nombre_empleado">Nombre completo</label>
+                    <input type="text" id="nombre_empleado" name="nombre_empleado" required placeholder="Ingresa tu nombre completo">
+                </div>
             </div>
-            <div class="question-group">
-                <label for="nombre_empleado">Nombre Empleado:</label>
-                <input type="text" id="nombre_empleado" name="nombre_empleado" required>
-            </div>
-
-            <div class="question-group">
-                <label for="asistencia">1. Asistencia:</label>
-                <select id="asistencia" name="asistencia" required>
-                    <option value="sin_faltas">Sin faltas</option>
-                    <option value="faltas.justificada">Faltas justificadas</option>
-                    <option value="faltas.no_justificada">Faltas no justificadas</option>
-                    <option value="llegadas_tarde">Llegadas tarde</option>
-                </select>
-            </div>
-
-            <div class="question-group">
-                <label for="objetivos_estado">2. Cumplimiento de objetivos:</label>
-                <select id="objetivos_estado" name="objetivos_estado" onchange="toggleRazon()" required>
-                    <option value="cumplido">Cumplido</option>
-                    <option value="no_cumplido">No cumplido</option>
-                </select>
-                <div id="razon_div" style="display: none; margin-top: 10px;">
-                    <label for="objetivos_razon">Razón (si no cumplido):</label>
-                    <select id="objetivos_razon" name="objetivos_razon">
-                        <option value="">Seleccione</option>
-                        <option value="grupal">Razón grupal</option>
-                        <option value="personal">Razón personal</option>
+            
+            <div class="card">
+                <h2 class="section-title">Evaluación de Asistencia</h2>
+                <div class="form-group">
+                    <label for="asistencia">¿Tuvo asistencia completa?</label>
+                    <select id="asistencia" name="asistencia" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="sin_faltas">Sin faltas</option>
+                        <option value="faltas_justificada">Faltas justificadas</option>
+                        <option value="faltas_no_justificada">Faltas no justificadas</option>
+                        <option value="llegadas_tarde">Llegadas tarde</option>
                     </select>
                 </div>
             </div>
-
-            <div class="question-group">
-                <label for="desempeno">3. Desempeño y responsabilidad (% de cumplimiento):</label>
-                <input type="number" id="desempeno" name="desempeno" min="0" max="100" placeholder="Ej: 90" required>
+            
+            <div class="card">
+                <h2 class="section-title">Cumplimiento de Objetivos</h2>
+                <div class="form-group">
+                    <label for="objetivos_estado">¿Cumplió los objetivos?</label>
+                    <select id="objetivos_estado" name="objetivos_estado" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="cumplido">Sí, cumplí los objetivos</option>
+                        <option value="no_cumplido">No cumplí los objetivos</option>
+                    </select>
+                </div>
+                
+                <div id="objetivos_razon_container" class="conditional-field">
+                    <div class="form-group">
+                        <label for="objetivos_razon">Razón del incumplimiento</label>
+                        <select id="objetivos_razon" name="objetivos_razon">
+                            <option value="">Selecciona una opción</option>
+                            <option value="grupal">Razones grupales/organizacionales</option>
+                            <option value="personal">Razones personales</option>
+                        </select>
+                    </div>
+                </div>
             </div>
-
-            <div class="question-group">
-                <label for="tiempo">4. Gestión del tiempo (%):</label>
-                <input type="number" id="tiempo" name="tiempo" min="0" max="100" placeholder="Ej: 85" required>
+            
+            <div class="card">
+                <h2 class="section-title">Evaluación de Competencias</h2>
+                <p>Califica tu desempeño en cada área (0 = Muy bajo, 100 = Excelente)</p>
+                
+                <div class="form-group">
+                    <label for="desempeno">Desempeño y responsabilidad (0-100%)</label>
+                    <input type="number" id="desempeno" name="desempeno" min="0" max="100" required value="75">
+                    <div class="rating-scale">
+                        <span class="scale-label">0%</span>
+                        <span class="scale-label">25%</span>
+                        <span class="scale-label">50%</span>
+                        <span class="scale-label">75%</span>
+                        <span class="scale-label">100%</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tiempo">Gestión del tiempo (0-100%)</label>
+                    <input type="number" id="tiempo" name="tiempo" min="0" max="100" required value="75">
+                    <div class="rating-scale">
+                        <span class="scale-label">0%</span>
+                        <span class="scale-label">25%</span>
+                        <span class="scale-label">50%</span>
+                        <span class="scale-label">75%</span>
+                        <span class="scale-label">100%</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="equipo">Trabajo en equipo y colaboración (0-100%)</label>
+                    <input type="number" id="equipo" name="equipo" min="0" max="100" required value="75">
+                    <div class="rating-scale">
+                        <span class="scale-label">0%</span>
+                        <span class="scale-label">25%</span>
+                        <span class="scale-label">50%</span>
+                        <span class="scale-label">75%</span>
+                        <span class="scale-label">100%</span>
+                    </div>
+                </div>
             </div>
-
-            <div class="question-group">
-                <label for="equipo">5. Trabajo en equipo y colaboración (%):</label>
-                <input type="number" id="equipo" name="equipo" min="0" max="100" placeholder="Ej: 70" required>
+            
+            <div class="btn-container">
+                <button type="submit" class="btn">Evaluar mi Desempeño</button>
             </div>
-
-            <button type="submit">Calcular Puntaje</button>
         </form>
+        
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <p>Procesando evaluación...</p>
+        </div>
+        
+        <div id="resultados" class="card result-container">
+            <h2 class="section-title">Resultados de tu Evaluación</h2>
+            
+            <div class="score-display">
+                Puntuación: <span id="puntuacion">0</span>/100
+            </div>
+            
+            <div class="evaluation-result">
+                <h3>Nivel de Desempeño: <span id="nivel-desempeno">-</span></h3>
+                <p id="evaluacion-texto">Aquí aparecerá la evaluación de tu desempeño...</p>
+            </div>
+            
+            <div class="recommendations">
+                <h3>Recomendaciones para mejorar:</h3>
+                <ul id="recomendaciones-list">
+                    <!-- Las recomendaciones se insertarán aquí mediante JavaScript -->
+                </ul>
+            </div>
+            
+            <div class="btn-container">
+                <button id="nueva-evaluacion-btn" class="btn">Realizar Nueva Evaluación</button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Sistema Experto de Autoevaluación de Desempeño Laboral &copy; 2023</p>
+        </footer>
     </div>
 
     <script>
-        function toggleRazon() {
-            const estadoSelect = document.getElementById('objetivos_estado');
-            const razonDiv = document.getElementById('razon_div');
-            const razonSelect = document.getElementById('objetivos_razon');
-
-            if (estadoSelect.value === 'no_cumplido') {
-                razonDiv.style.display = 'block';
-                razonSelect.setAttribute('required', 'required'); // Hacer el campo requerido
-            } else {
-                razonDiv.style.display = 'none';
-                razonSelect.removeAttribute('required'); // Quitar el requerido
-                razonSelect.value = ""; // Limpiar selección al ocultar
+        document.addEventListener('DOMContentLoaded', function() {
+            const evaluationForm = document.getElementById('evaluation-form');
+            const resultadosSection = document.getElementById('resultados');
+            const loadingSection = document.querySelector('.loading');
+            const nuevaEvaluacionBtn = document.getElementById('nueva-evaluacion-btn');
+            const objetivosEstado = document.getElementById('objetivos_estado');
+            const objetivosRazonContainer = document.getElementById('objetivos_razon_container');
+            
+            // Mostrar/ocultar campo de razón según la selección de objetivos
+            objetivosEstado.addEventListener('change', function() {
+                if (this.value === 'no_cumplido') {
+                    objetivosRazonContainer.style.display = 'block';
+                    document.getElementById('objetivos_razon').setAttribute('required', 'required');
+                } else {
+                    objetivosRazonContainer.style.display = 'none';
+                    document.getElementById('objetivos_razon').removeAttribute('required');
+                }
+            });
+            
+            // Manejar el envío del formulario
+            evaluationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Mostrar carga
+                loadingSection.style.display = 'block';
+                evaluationForm.style.display = 'none';
+                
+                // Recopilar datos del formulario
+                const formData = new FormData(evaluationForm);
+                const data = {};
+                for (let [key, value] of formData.entries()) {
+                    data[key] = value;
+                }
+                
+                // Enviar datos al backend Flask
+                fetch('/evaluar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams(data)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Ocultar carga
+                    loadingSection.style.display = 'none';
+                    
+                    // Mostrar resultados
+                    mostrarResultados(data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    loadingSection.style.display = 'none';
+                    evaluationForm.style.display = 'block';
+                    alert('Error al procesar la evaluación. Por favor, intenta nuevamente.');
+                });
+            });
+            
+            // Función para mostrar resultados
+            function mostrarResultados(data) {
+                document.getElementById('puntuacion').textContent = data.puntaje_final || 0;
+                document.getElementById('nivel-desempeno').textContent = data.interpretacion || 'No disponible';
+                document.getElementById('evaluacion-texto').textContent = data.explicacion || 'No hay evaluación disponible.';
+                
+                // Limpiar recomendaciones previas
+                const recomendacionesList = document.getElementById('recomendaciones-list');
+                recomendacionesList.innerHTML = '';
+                
+                // Agregar recomendaciones basadas en el puntaje
+                const puntaje = data.puntaje_final || 0;
+                if (puntaje < 60) {
+                    agregarRecomendacion('Considera establecer metas más claras y alcanzables para mejorar tu desempeño.');
+                    agregarRecomendacion('Busca retroalimentación regular de tus superiores para identificar áreas de mejora.');
+                    agregarRecomendacion('Participa en programas de capacitación para fortalecer tus habilidades.');
+                } else if (puntaje < 80) {
+                    agregarRecomendacion('Mantén tu buen desempeño y busca oportunidades para destacar aún más.');
+                    agregarRecomendacion('Identifica una o dos áreas específicas para llevar al siguiente nivel.');
+                    agregarRecomendacion('Considera mentorías para acelerar tu desarrollo profesional.');
+                } else {
+                    agregarRecomendacion('¡Excelente trabajo! Continúa manteniendo tu alto nivel de desempeño.');
+                    agregarRecomendacion('Considera compartir tus mejores prácticas con otros colegas.');
+                    agregarRecomendacion('Explora oportunidades de liderazgo y mentoría dentro de la organización.');
+                }
+                
+                // Mostrar sección de resultados
+                resultadosSection.style.display = 'block';
             }
-        }
-
-        // Inicializar los estados correctos al cargar la página
-        document.addEventListener('DOMContentLoaded', () => {
-            toggleRazon(); // Llama a la función para establecer el estado inicial
+            
+            // Función para agregar recomendaciones a la lista
+            function agregarRecomendacion(texto) {
+                const li = document.createElement('li');
+                li.textContent = texto;
+                document.getElementById('recomendaciones-list').appendChild(li);
+            }
+            
+            // Botón para nueva evaluación
+            nuevaEvaluacionBtn.addEventListener('click', function() {
+                resultadosSection.style.display = 'none';
+                evaluationForm.style.display = 'block';
+                evaluationForm.reset();
+                objetivosRazonContainer.style.display = 'none';
+            });
         });
     </script>
 </body>
