@@ -4,12 +4,12 @@ base_conocimiento = {
         "asistencia": {
             "pregunta": "¿Tuvo asistencia completa?",
             "tipo": "directa",
-            "respuestas": {
-                "sin_faltas": 100,
-                "faltas.justificada": 80,
-                "faltas.no_justificada": 0,
-                "llegadas_tarde": 50
-            },
+                "respuestas": {
+                    "sin_faltas": 100,
+                    "faltas_justificada": 80,
+                    "faltas_no_justificada": 0,
+                    "llegadas_tarde": 50
+                },
             "peso": 0.20
         },
         "objetivos": {
