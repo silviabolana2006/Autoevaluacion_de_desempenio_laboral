@@ -58,8 +58,6 @@ Si falta alguna dependencia, instálala con pip (ejemplo: `pip install flask-cor
 Autor: Bolaña Silvia
 Colaboración: Experto en RRHH Federico Magaldi
 
-## Video demostrativo
-[YouTube](https://www.youtube.com/watch?v=EmN-NL9oaQs)
 ## Estructura del proyecto (resumen)
 
 - `app.py`: archivo principal que levanta el servidor Flask.
